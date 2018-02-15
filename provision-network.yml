@@ -1,0 +1,45 @@
+- hosts: all
+  become: yes
+
+  tasks:
+
+  - name: Install EPEL Repository
+    yum:
+      name: epel-release
+      update_cache: yes
+      state: latest
+
+  - name: Install Avahi
+    yum:
+      name: avahi, nss-mdns
+      update_cache: yes
+      state: latest
+
+  - name: Start avahi-daemon service
+    systemd:
+      name: avahi-daemon
+      state: started
+      enabled: yes
+
+  - name: Install NTP
+    yum:
+      name: ntp
+      update_cache: yes
+      state: latest
+
+  - name: Start NTP service
+    systemd:
+      name: ntpd
+      state: started
+      enabled: yes
+
+  - name: Disable SELINUX
+    selinux:
+      state: disabled
+
+  - name: Disable firewall service
+    systemd:
+      name: firewalld
+      state: stopped
+      enabled: no
+
