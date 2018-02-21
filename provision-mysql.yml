@@ -1,0 +1,15 @@
+- hosts: all
+  become: yes
+
+  tasks:
+
+  - name: Download MySQL 5.6 Community Repository
+    get_url:
+      url: http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
+      dest: /tmp/mysql-community-release-el7-5.noarch.rpm
+
+  - name: Install MySQL Community Repository
+    yum:
+      name: http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
+      state: latest
+

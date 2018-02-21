@@ -43,6 +43,10 @@ Vagrant.configure("2") do |config|
             hadoop.vm.provision "ansible" do |ansible|
                 ansible.playbook = "provision-ambari-agent.yml"
             end
+
+            hadoop.vm.provision "ansible" do |ansible|
+                ansible.playbook = "provision-mysql.yml"
+            end
     
         end
 
