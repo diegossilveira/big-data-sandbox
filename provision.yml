@@ -2,4 +2,5 @@
   become: yes
 
   roles:
+    - hdp-commons
     - hadoop

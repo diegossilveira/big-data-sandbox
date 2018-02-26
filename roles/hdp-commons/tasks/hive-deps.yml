@@ -1,0 +1,15 @@
+---
+- name: Install postgres-jdbc connector
+  yum:
+    name: postgresql-jdbc
+    state: latest
+
+- name: Check if connector is in java share directory
+  stat:
+    path: /usr/share/java/postgresql-jdbc.jar
+  register: connector
+
+- name: Fail if connector not exists
+  fail:
+    msg: "Connector not found"
+  when: not connector.stat.exists
