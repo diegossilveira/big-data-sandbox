@@ -1,0 +1,23 @@
+- name: Set umask
+  lineinfile:
+    path: /etc/profile
+    insertafter: EOF
+    line: umask 0022
+
+- name: Install Hadoop Packages
+  yum:
+    name: hadoop, hadoop-hdfs, hadoop-libhdfs, hadoop-yarn, hadoop-mapreduce, hadoop-client, openssl
+    update_cache: yes
+    state: latest
+
+- name: Install Snappy Compression Library
+  yum:
+    name: snappy snappy-devel
+    update_cache: yes
+    state: latest
+
+- name: Install LZO Compression Library
+  yum:
+    name: lzo, lzo-devel, hadooplzo, hadooplzo-native
+    update_cache: yes
+    state: latest
