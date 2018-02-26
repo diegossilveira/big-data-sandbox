@@ -4,20 +4,28 @@
     insertafter: EOF
     line: umask 0022
 
-- name: Install Hadoop Packages
+- name: Install Hadoop packages
   yum:
     name: hadoop, hadoop-hdfs, hadoop-libhdfs, hadoop-yarn, hadoop-mapreduce, hadoop-client, openssl
     update_cache: yes
     state: latest
 
-- name: Install Snappy Compression Library
+- name: Install Snappy compression library
   yum:
     name: snappy snappy-devel
     update_cache: yes
     state: latest
 
-- name: Install LZO Compression Library
+- name: Install LZO compression library
   yum:
     name: lzo, lzo-devel, hadooplzo, hadooplzo-native
     update_cache: yes
     state: latest
+
+- name: Copy environment file to profile
+  template:
+    src: hadoop_env.sh
+    dest: /etc/profile.d
+    owner: root
+    group: root
+    mode: 0644

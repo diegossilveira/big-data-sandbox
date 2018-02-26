@@ -1,0 +1,17 @@
+# Space separated list of directories where NameNode will store file system image. For example, /grid/hadoop/hdfs/nn /grid1/hadoop/hdfs/nn
+dfs_name_dir: TODO-LIST-OF-NAMENODE-DIRS
+
+# Space separated list of directories where DataNodes will store the blocks. For example, /grid/hadoop/hdfs/dn /grid1/hadoop/hdfs/dn /grid2/hadoop/hdfs/dn
+dfs_data_dir: TODO-LIST-OF-DATA-DIRS
+
+# Space separated list of directories where SecondaryNameNode will store checkpoint image. For example, /grid/hadoop/hdfs/snn /grid1/hadoop/hdfs/snn /grid2/hadoop/hdfs/snn
+fs_checkpoint_dir: TODO-LIST-OF-SECONDARY-NAMENODE-DIRS
+
+# Directory to store the HDFS logs.
+hdfs_log_dir: /var/log/hadoop/hdfs
+
+# Directory to store the HDFS process ID.
+hdfs_pid_dir: /var/run/hadoop/hdfs
+
+# Directory to store the Hadoop configuration files.
+hadoop_conf_dir: /etc/hadoop/conf
