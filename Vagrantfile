@@ -19,6 +19,7 @@ Vagrant.configure("2") do |config|
 
     config.vm.provision "ansible" do |ansible|
         ansible.playbook = "provision.yml"
+        ansible.raw_arguments = ["--skip-tags=hive"]
     end
 
 end
