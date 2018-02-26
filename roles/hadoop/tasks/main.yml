@@ -1,3 +1,4 @@
+---
 - name: Set umask
   lineinfile:
     path: /etc/profile
@@ -12,7 +13,7 @@
 
 - name: Install Snappy compression library
   yum:
-    name: snappy snappy-devel
+    name: snappy, snappy-devel
     update_cache: yes
     state: latest
 
