@@ -1,42 +1,13 @@
 ---
-- name: Install required packages
-  yum:
-    name: "{{ item }}"
-    state: latest
-    update_cache: yes
-  with_items:
-    - curl
-    - rsync
-    - openssh-clients
-    - tar
-    - unzip
-    - wget
+# Tasks lists divided following HortonWorks documentation (https://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.6.4/bk_command-line-installation/content/ch_getting_ready_chapter.html)
+- import_tasks: system-requirements.yml
 
-- name: Download Java 8
-  command: "wget -q -O '/tmp/jdk-{{java_version}}.rpm' --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' {{java_download_url}}"
+- import_tasks: jdk-requirements.yml
 
-- name: Install Java
-  yum:
-    name: /tmp/jdk-{{java_version}}.rpm
-    state: present
-
-- name: Set JAVA_HOME
-  copy:
-    src: ../files/java_home.sh
-    dest: /etc/profile.d/java_home.sh
-    owner: root
-    group: root
-    mode: 0644
-    
-- name: Update system environments
-  shell: source /etc/profile.d/java_home.sh
-
-- include_tasks: hive-deps.yml
+- include_tasks: metastore-requirements.yml
   tags:
-    - hive
-    
-- name: Configuring remote repositories
-  get_url:
-    url: http://public-repo-1.hortonworks.com/HDP/centos7/2.x/updates/2.6.3.0/hdp.repo
-    dest: /etc/yum.repos.d/hdp.repo
-    mode: 0644
+    - metastore_server
+
+- import_tasks: remote-repositories.yml
+
+- import_tasks: environment-preparing.yml

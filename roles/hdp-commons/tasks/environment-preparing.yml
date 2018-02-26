@@ -1,0 +1,9 @@
+---
+- name: Disabling SELinux
+  command: setenforce 0
+
+- name: Temporarily stopping firewall
+  systemd:
+    state: stopped
+    name: firewalld
+    masked: yes
