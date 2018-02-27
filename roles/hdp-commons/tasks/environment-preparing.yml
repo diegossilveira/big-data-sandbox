@@ -8,6 +8,11 @@
     name: firewalld
     masked: yes
 
+- name: Creating a common group shared by services
+  group:
+    name: hadoop
+    state: present
+
 - name: Set common environment variables
   copy:
     src: commons_env.sh
