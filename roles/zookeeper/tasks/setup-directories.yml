@@ -1,0 +1,39 @@
+---
+- name: Clean ZOOKEEPER_LOG_DIR
+  file:
+    state: absent
+    path: "{{ zookeeper_log_dir }}"
+
+- name: Create ZOOKEEPER_LOG_DIR
+  file:
+    path: "{{ zookeeper_log_dir }}"
+    state: directory
+    owner: "{{ zookeeper_user }}"
+    group: "{{ hadoop_group }}"
+    mode: 0775
+
+- name: Clean ZOOKEEPER_PID_DIR
+  file:
+    state: absent
+    path: "{{ zookeeper_pid_dir }}"
+
+- name: Create ZOOKEEPER_PID_DIR
+  file:
+    path: "{{ zookeeper_pid_dir }}"
+    state: directory
+    owner: "{{ zookeeper_user }}"
+    group: "{{ hadoop_group }}"
+    mode: 0775
+
+- name: Clean ZOOKEEPER_DATA_DIR
+  file:
+    state: absent
+    path: "{{ zookeeper_data_dir }}"
+
+- name: Create ZOOKEEPER_DATA_DIR
+  file:
+    path: "{{ zookeeper_data_dir }}"
+    state: directory
+    owner: "{{ zookeeper_user }}"
+    group: "{{ hadoop_group }}"
+    mode: 0775

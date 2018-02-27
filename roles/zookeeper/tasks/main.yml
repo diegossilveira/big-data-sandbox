@@ -1,0 +1,28 @@
+- name: Install Zookeeper Packages
+  yum:
+    name: zookeeper-server
+    update_cache: yes
+    state: latest
+
+- name: Create User Zookeeper
+  user:
+    name: "{{ zookeeper_user }}"
+    password: "{{ zookeeper_password }}"
+
+- name: Create zookeeper-env.sh
+  template:
+    src: zookeeper-env.sh
+    dest: /etc/profile.d
+    owner: root
+    group: root
+    mode: 0644
+
+- include_tasks: setup-directories.yml
+
+- name: Initialize Zookeeper data directory
+  template:
+    src: myid.j2
+    dest: "{{ zookeeper_data_dir }}/myid"
+    owner: "{{ zookeeper_user }}"
+    group: "{{ hadoop_group }}"
+    mode: 0644

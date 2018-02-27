@@ -1,0 +1,11 @@
+---
+zookeeper_home_dir: /usr/hdp/current/zookeeper-server
+zookeeper_pid_dir: /var/run/zookeeper/zookeeper_server.pid
+zookeeper_data_dir: /grid/hadoop/zookeeper/data
+zookeeper_log_dir: /var/log/zookeeper
+
+zookeeper_user: zookeeper
+zookeeper_password: zookeeper
+hadoop_group: hadoop
+
+zookeeper_data_dir_myid: 1

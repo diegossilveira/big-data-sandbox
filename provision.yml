@@ -3,4 +3,5 @@
 
   roles:
     - hdp-commons
+    - zookeeper
     - hadoop
