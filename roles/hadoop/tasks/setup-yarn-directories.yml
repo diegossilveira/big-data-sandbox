@@ -7,7 +7,7 @@
     group: "{{ hadoop_group }}"
     mode: 0755
   with_items: "{{ yarn_local_dirs }}"
-  #when: "'name_nodes' in group_names or 'resource_managers' in group_names"
+  when: "'data_nodes' in group_names or 'resource_managers' in group_names"
 
 - name: Create YARN local log directories
   file:
@@ -17,7 +17,7 @@
     group: "{{ hadoop_group }}"
     mode: 0755
   with_items: "{{ yarn_local_log_dirs }}"
-  #when: "'name_nodes' in group_names or 'resource_managers' in group_names"
+  when: "'data_nodes' in group_names or 'resource_managers' in group_names"
 
 - name: Create YARN log directory
   file:

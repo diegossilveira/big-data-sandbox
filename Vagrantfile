@@ -17,9 +17,20 @@ Vagrant.configure("2") do |config|
         vb.memory = "1024"
     end
 
+    config.vm.define "hadoop-name-node"
+    config.vm.define "hadoop-secondary-name-node"
+    config.vm.define "hadoop-data-node-1"
+    config.vm.define "hadoop-data-node-2"
+
     config.vm.provision "ansible" do |ansible|
         ansible.playbook = "provision.yml"
-        ansible.raw_arguments = ["--skip-tags=metastore_server"]
+        ansible.groups = {
+            "hadoop" => [],
+            "name_node" => ["hadoop-name-node"],
+            "secondary_name_nodes" => ["hadoop-secondary-name-node"],
+            "data_nodes" => ["hadoop-data-node-[1:2]"],
+            "hadoop:children" => ["name_node", "secondary_name_nodes", "data_nodes"]
+        }
     end
 
 end
