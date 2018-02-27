@@ -1,12 +1,11 @@
 ---
-# Tasks lists divided following HortonWorks documentation (https://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.6.4/bk_command-line-installation/content/ch_getting_ready_chapter.html)
+Tasks lists divided following HortonWorks documentation (https://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.6.4/bk_command-line-installation/content/ch_getting_ready_chapter.html)
 - import_tasks: system-requirements.yml
 
 - import_tasks: jdk-requirements.yml
 
 - include_tasks: metastore-requirements.yml
-  tags:
-    - metastore_server
+  when: "'metastore_server' in group_names"
 
 - import_tasks: remote-repositories.yml
 
