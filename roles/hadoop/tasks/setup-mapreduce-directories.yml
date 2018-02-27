@@ -1,0 +1,16 @@
+---
+- name: Create JobHistory Server log directory
+  file:
+    path: "{{ mapred_log_dir }}"
+    state: directory
+    owner: "{{ mapred_user }}"
+    group: "{{ hadoop_group }}"
+    mode: 0755
+
+- name: Create JobHistory PID directory
+  file:
+    path: "{{ mapred_pid_dir }}"
+    state: directory
+    owner: "{{ mapred_user }}"
+    group: "{{ hadoop_group }}"
+    mode: 0755

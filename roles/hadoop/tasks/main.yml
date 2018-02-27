@@ -31,103 +31,11 @@
     group: root
     mode: 0644
 
-- name: Create the NameNode directories
-  file:
-    path: "{{ item }}"
-    state: directory
-    owner: "{{ hdfs_user }}"
-    group: "{{ hadoop_group }}"
-    mode: 0755
-  with_items: "{{ dfs_name_dirs }}"
-  #when: "'name_nodes' in group_names"
+- import_tasks: setup-hdfs-directories.yml
 
-- name: Create the SecondaryNameNode directories
-  file:
-    path: "{{ item }}"
-    state: directory
-    owner: "{{ hdfs_user }}"
-    group: "{{ hadoop_group }}"
-    mode: 0755
-  with_items: "{{ fs_checkpoint_dirs }}"
-  #when: "'name_nodes' in group_names"
+- import_tasks: setup-yarn-directories.yml
 
-- name: Create DataNode directories
-  file:
-    path: "{{ item }}"
-    state: directory
-    owner: "{{ hdfs_user }}"
-    group: "{{ hadoop_group }}"
-    mode: 0750
-  with_items: "{{ dfs_data_dirs }}"
-  #when: "'data_nodes' in group_names"
-
-- name: Create YARN local directories
-  file:
-    path: "{{ item }}"
-    state: directory
-    owner: "{{ yarn_user }}"
-    group: "{{ hadoop_group }}"
-    mode: 0755
-  with_items: "{{ yarn_local_dirs }}"
-  #when: "'name_nodes' in group_names or 'resource_managers' in group_names"
-
-- name: Create YARN local log directories
-  file:
-    path: "{{ item }}"
-    state: directory
-    owner: "{{ yarn_user }}"
-    group: "{{ hadoop_group }}"
-    mode: 0755
-  with_items: "{{ yarn_local_log_dirs }}"
-  #when: "'name_nodes' in group_names or 'resource_managers' in group_names"
-
-- name: Create HDFS log directory
-  file:
-    path: "{{ hdfs_log_dir }}"
-    state: directory
-    owner: "{{ hdfs_user }}"
-    group: "{{ hadoop_group }}"
-    mode: 0755
-
-- name: Create YARN log directory
-  file:
-    path: "{{ yarn_log_dir }}"
-    state: directory
-    owner: "{{ yarn_user }}"
-    group: "{{ hadoop_group }}"
-    mode: 0755
-
-- name: Create HDFS PID directory
-  file:
-    path: "{{ hdfs_pid_dir }}"
-    state: directory
-    owner: "{{ hdfs_user }}"
-    group: "{{ hadoop_group }}"
-    mode: 0755
-
-- name: Create YARN PID directory
-  file:
-    path: "{{ yarn_pid_dir }}"
-    state: directory
-    owner: "{{ yarn_user }}"
-    group: "{{ hadoop_group }}"
-    mode: 0755
-
-- name: Create JobHistory Server log directory
-  file:
-    path: "{{ mapred_log_dir }}"
-    state: directory
-    owner: "{{ mapred_user }}"
-    group: "{{ hadoop_group }}"
-    mode: 0755
-
-- name: Create JobHistory PID directory
-  file:
-    path: "{{ mapred_pid_dir }}"
-    state: directory
-    owner: "{{ mapred_user }}"
-    group: "{{ hadoop_group }}"
-    mode: 0755
+- import_tasks: setup-mapreduce-directories.yml
 
 - name: Find HDP version
   yum:
