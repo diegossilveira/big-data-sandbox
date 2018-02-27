@@ -1,11 +1,20 @@
-# Space separated list of directories where NameNode will store file system image. For example, /grid/hadoop/hdfs/nn /grid1/hadoop/hdfs/nn
-dfs_name_dir: TODO-LIST-OF-NAMENODE-DIRS
+# The user owning the HDFS services. For example, hdfs.
+hdfs_user: hdfs
 
-# Space separated list of directories where DataNodes will store the blocks. For example, /grid/hadoop/hdfs/dn /grid1/hadoop/hdfs/dn /grid2/hadoop/hdfs/dn
-dfs_data_dir: TODO-LIST-OF-DATA-DIRS
+# List of directories where NameNode will store file system image. For example, /grid/hadoop/hdfs/nn /grid1/hadoop/hdfs/nn
+dfs_name_dirs:
+  - /data/hadoop/hdfs/name-node
 
-# Space separated list of directories where SecondaryNameNode will store checkpoint image. For example, /grid/hadoop/hdfs/snn /grid1/hadoop/hdfs/snn /grid2/hadoop/hdfs/snn
-fs_checkpoint_dir: TODO-LIST-OF-SECONDARY-NAMENODE-DIRS
+# List of directories where DataNodes will store the blocks. For example, /grid/hadoop/hdfs/dn /grid1/hadoop/hdfs/dn /grid2/hadoop/hdfs/dn
+dfs_data_dirs:
+  - /data/hadoop/hdfs/data-node
+
+# List of directories where SecondaryNameNode will store checkpoint image. For example, /grid/hadoop/hdfs/snn /grid1/hadoop/hdfs/snn /grid2/hadoop/hdfs/snn
+fs_checkpoint_dirs:
+  - /data/hadoop/hdfs/secondary-name-node
+
+# A common group shared by services. For example, hadoop.
+hadoop_group: hadoop
 
 # Directory to store the HDFS logs.
 hdfs_log_dir: /var/log/hadoop/hdfs
@@ -15,3 +24,29 @@ hdfs_pid_dir: /var/run/hadoop/hdfs
 
 # Directory to store the Hadoop configuration files.
 hadoop_conf_dir: /etc/hadoop/conf
+
+# The user owning the YARN services. For example, yarn.
+yarn_user: yarn
+
+# List of directories where YARN will store temporary data. For example, /grid/hadoop/yarn/local /grid1/hadoop/yarn/local /grid2/hadoop/yarn/local
+yarn_local_dirs:
+  - /data/hadoop/yarn/local
+
+# Directory to store the YARN logs.
+yarn_log_dir: /var/log/hadoop/yarn
+
+# List of directories where YARN will store container log data. For example, /grid/hadoop/yarn/logs /grid1/hadoop/yarn/logs /grid2/hadoop/yarn/logs
+yarn_local_log_dirs:
+  - /data/hadoop/yarn/logs
+
+# Directory to store the YARN process ID.
+yarn_pid_dir: /var/run/hadoop/yarn
+
+# The user owning the MAPRED services. For example, mapred.
+mapred_user: mapred
+
+# Directory to store the MapReduce daemon logs.
+mapred_log_dir: /var/log/hadoop/mapred
+
+# Directory to store the mapreduce jobhistory process ID.
+mapred_pid_dir: /var/run/hadoop/mapred
