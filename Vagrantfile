@@ -28,8 +28,8 @@ Vagrant.configure("2") do |config|
     # config.vm.define "hadoop-data-node-1"
     # config.vm.define "hadoop-data-node-2"
     config.vm.define "zookeeper-1"
-    # config.vm.define "zookeeper-2"
-    # config.vm.define "zookeeper-3"
+    config.vm.define "zookeeper-2"
+    config.vm.define "zookeeper-3"
 
     config.vm.provision "ansible" do |ansible|
         ansible.playbook = "provision.yml"
@@ -41,11 +41,11 @@ Vagrant.configure("2") do |config|
             # "resource_manager" => ["hadoop-name-node"],
             # "job_history_server" => ["hadoop-name-node"],
             # "hadoop:children" => ["name_node", "secondary_name_nodes", "data_nodes"],
-            "zookeeper" => ["zookeeper-1"]
+            "zookeeper" => ["zookeeper-[1:3]"]
         }
     end
 
-    ["zookeeper-1"].each do |node_name|
+    ["zookeeper-1", "zookeeper-2", "zookeeper-3"].each do |node_name|
         config.vm.define node_name do |hadoop|
             hadoop.vm.hostname = "#{node_name}.local"
         end

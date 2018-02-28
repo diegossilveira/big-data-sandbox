@@ -50,3 +50,8 @@
     owner: "{{ zookeeper_user }}"
     group: "{{ hadoop_group }}"
     mode: 0644
+
+- name: Start ZooKeeper
+  command: "{{ zookeeper_home_dir }}/bin/zkServer.sh start"
+  become: true
+  become_user: zookeeper
