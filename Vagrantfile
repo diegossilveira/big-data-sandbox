@@ -26,8 +26,10 @@ Vagrant.configure("2") do |config|
         ansible.groups = {
             "hadoop" => [],
             "name_node" => ["hadoop-name-node"],
-            "secondary_name_nodes" => ["hadoop-secondary-name-node"],
+            "secondary_name_node" => ["hadoop-secondary-name-node"],
             "data_nodes" => ["hadoop-data-node-[1:2]"],
+            "resource_manager" => ["hadoop-name-node"],
+            "job_history_server" => ["hadoop-name-node"],
             "hadoop:children" => ["name_node", "secondary_name_nodes", "data_nodes"]
         }
     end
