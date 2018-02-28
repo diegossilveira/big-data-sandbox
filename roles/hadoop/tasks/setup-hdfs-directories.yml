@@ -17,7 +17,7 @@
     group: "{{ hadoop_group }}"
     mode: 0755
   with_items: "{{ fs_checkpoint_dirs }}"
-  when: "'secondary_name_nodes' in group_names"
+  when: "'secondary_name_node' in group_names"
 
 - name: Create DataNode directories
   file:

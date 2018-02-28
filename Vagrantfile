@@ -38,6 +38,8 @@ Vagrant.configure("2") do |config|
             # "name_node" => ["hadoop-name-node"],
             # "secondary_name_nodes" => ["hadoop-secondary-name-node"],
             # "data_nodes" => ["hadoop-data-node-[1:2]"],
+            # "resource_manager" => ["hadoop-name-node"],
+            # "job_history_server" => ["hadoop-name-node"],
             # "hadoop:children" => ["name_node", "secondary_name_nodes", "data_nodes"],
             "zookeeper" => ["zookeeper-1"]
         }
