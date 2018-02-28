@@ -9,15 +9,39 @@
     name: "{{ zookeeper_user }}"
     password: "{{ zookeeper_password }}"
 
-- name: Create zookeeper-env.sh
+- include_tasks: setup-directories.yml
+
+- name: Set log4j.properties
+  copy:
+    src: log4j.properties
+    dest: "{{ zookeeper_conf_dir }}/log4j.properties"
+    owner: "{{ zookeeper_user }}"
+    group: "{{ hadoop_group }}"
+    mode: 0644
+
+- name: Setup zoo.cfg
   template:
-    src: zookeeper-env.sh
-    dest: /etc/profile.d
+    src: zoo.cfg.j2
+    dest: "{{ zookeeper_conf_dir }}/zoo.cfg"
     owner: root
     group: root
     mode: 0644
 
-- include_tasks: setup-directories.yml
+- name: Update zookeeper-env.sh
+  template:
+    src: zookeeper-env.sh
+    dest: "{{ zookeeper_conf_dir }}/zookeeper-env.sh"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Update zookeeper-env.sh
+  template:
+    src: zookeeper-env.sh
+    dest: /etc/profile.d/
+    owner: root
+    group: root
+    mode: 0644
 
 - name: Initialize Zookeeper data directory
   template:

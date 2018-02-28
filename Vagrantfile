@@ -13,7 +13,9 @@ Vagrant.configure("2") do |config|
     config.vm.boot_timeout = 120
 
     config.vm.provider "virtualbox" do |vb|
+        # Display the VirtualBox GUI when booting the machine
         vb.gui = false
+        # Customize the amount of memory on the VM:
         vb.memory = "1024"
     end
 
@@ -21,18 +23,27 @@ Vagrant.configure("2") do |config|
         ansible.playbook = "provision-network.yml"
     end
 
+    # config.vm.define "hadoop-name-node"
+    # config.vm.define "hadoop-secondary-name-node"
+    # config.vm.define "hadoop-data-node-1"
+    # config.vm.define "hadoop-data-node-2"
+    config.vm.define "zookeeper-1"
+    # config.vm.define "zookeeper-2"
+    # config.vm.define "zookeeper-3"
+
     config.vm.provision "ansible" do |ansible|
         ansible.playbook = "provision.yml"
         ansible.groups = {
-            "hadoop" => [],
-            "name_node" => ["hadoop-name-node"],
-            "secondary_name_nodes" => ["hadoop-secondary-name-node"],
-            "data_nodes" => ["hadoop-data-node-[1:2]"],
-            "hadoop:children" => ["name_node", "secondary_name_nodes", "data_nodes"]
+            # "hadoop" => [],
+            # "name_node" => ["hadoop-name-node"],
+            # "secondary_name_nodes" => ["hadoop-secondary-name-node"],
+            # "data_nodes" => ["hadoop-data-node-[1:2]"],
+            # "hadoop:children" => ["name_node", "secondary_name_nodes", "data_nodes"],
+            "zookeeper" => ["zookeeper-1"]
         }
     end
 
-    ["hadoop-name-node", "hadoop-secondary-name-node", "hadoop-data-node-1", "hadoop-data-node-2"].each do |node_name|
+    ["zookeeper-1"].each do |node_name|
         config.vm.define node_name do |hadoop|
             hadoop.vm.hostname = "#{node_name}.local"
         end
