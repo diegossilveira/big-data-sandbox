@@ -15,11 +15,6 @@ Vagrant.configure("2") do |config|
     config.vm.network "private_network", type: "dhcp"
     config.vm.boot_timeout = VM_BOOT_TIMEOUT
 
-    # config.vm.provider "virtualbox" do |vb|
-    #     vb.gui = false
-    #     vb.memory = DEFAULT_VM_MEMORY
-    # end
-
     config.vm.provision "ansible" do |ansible|
         ansible.playbook = "provision-network.yml"
     end
