@@ -1,5 +1,5 @@
 ---
-Tasks lists divided following HortonWorks documentation (https://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.6.4/bk_command-line-installation/content/ch_getting_ready_chapter.html)
+# Tasks lists divided following HortonWorks documentation (https://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.6.4/bk_command-line-installation/content/ch_getting_ready_chapter.html)
 - import_tasks: system-requirements.yml
 
 - import_tasks: jdk-requirements.yml
