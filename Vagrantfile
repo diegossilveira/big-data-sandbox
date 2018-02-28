@@ -15,6 +15,11 @@ Vagrant.configure("2") do |config|
     config.vm.network "private_network", type: "dhcp"
     config.vm.boot_timeout = VM_BOOT_TIMEOUT
 
+    # config.vm.provider "virtualbox" do |vb|
+    #     vb.gui = false
+    #     vb.memory = DEFAULT_VM_MEMORY
+    # end
+
     config.vm.provision "ansible" do |ansible|
         ansible.playbook = "provision-network.yml"
     end
@@ -28,18 +33,21 @@ Vagrant.configure("2") do |config|
             "data_nodes" => ["hadoop-data-node-[1:2].local"],
             "resource_manager" => ["hadoop-name-node.local"],
             "job_history_server" => ["hadoop-name-node.local"],
-            "hadoop:children" => ["name_node", "secondary_name_nodes", "data_nodes"]
+            "hadoop:children" => ["name_node", "secondary_name_nodes", "data_nodes"],
+            "zookeeper" => ["zookeeper-[1:3].local"]
         }
     end
 
     # IMPORTANT: Because of vagrant's dynamic ansible inventory, and the need of using it's values as hostnames,
     # the VM name must be the same of it's FQDN
     [
-        { hostname: "hadoop-name-node.local", memory: "3072" },
+        { hostname: "hadoop-name-node.local", memory: "1536" },
         { hostname: "hadoop-secondary-name-node.local" },
-        { hostname: "hadoop-data-node-1.local"},
-        { hostname: "hadoop-data-node-2.local" }
-        
+        { hostname: "hadoop-data-node-1.local" },
+        { hostname: "hadoop-data-node-2.local" },
+        { hostname: "zookeeper-1.local", memory: "512" },
+        { hostname: "zookeeper-2.local", memory: "512" },
+        { hostname: "zookeeper-3.local", memory: "512" }
     ].each do |node|
         config.vm.define node[:hostname] do |hadoop| 
             hadoop.vm.hostname = "#{node[:hostname]}.local"
