@@ -45,7 +45,7 @@ Vagrant.configure("2") do |config|
         { hostname: "zookeeper-3.local", memory: "512" }
     ].each do |node|
         config.vm.define node[:hostname] do |hadoop| 
-            hadoop.vm.hostname = "#{node[:hostname]}.local"
+            hadoop.vm.hostname = node[:hostname]
             hadoop.vm.provider "virtualbox" do |vb|
                 vb.gui = false
                 vb.memory = node[:memory] || DEFAULT_VM_MEMORY
