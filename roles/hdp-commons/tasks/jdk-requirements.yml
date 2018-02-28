@@ -1,6 +1,10 @@
 ---
 - name: Download Java 8
-  command: "wget -q -O '/tmp/jdk-{{java_version}}.rpm' --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' {{java_download_url}}"
+  get_url:
+    url: "{{java_download_url}}"
+    dest: /tmp/jdk-{{java_version}}.rpm
+    headers: "Cookie:oraclelicense=accept-securebackup-cookie"
+    validate_certs: no
 
 - name: Install Java
   yum:
