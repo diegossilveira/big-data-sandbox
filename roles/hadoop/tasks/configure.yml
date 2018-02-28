@@ -1,0 +1,13 @@
+---
+- name: Copy config files
+  template:
+    src: "{{ item }}"
+    dest: "{{ hadoop_conf_dir }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - core-site.xml
+    - hdfs-site.xml
+    - yarn-site.xml
+    - mapred-site.xml
