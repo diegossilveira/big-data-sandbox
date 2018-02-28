@@ -25,17 +25,20 @@ Vagrant.configure("2") do |config|
         ansible.playbook = "provision.yml"
         ansible.groups = {
             "hadoop" => [],
-            "name_node" => ["hadoop-name-node"],
-            "secondary_name_nodes" => ["hadoop-secondary-name-node"],
-            "data_nodes" => ["hadoop-data-node-[1:2]"],
+            "name_node" => ["hadoop-name-node.local"],
+            "secondary_name_nodes" => ["hadoop-secondary-name-node.local"],
+            "data_nodes" => ["hadoop-data-node-[1:2].local"],
             "hadoop:children" => ["name_node", "secondary_name_nodes", "data_nodes"]
         }
     end
 
-    ["hadoop-name-node", "hadoop-secondary-name-node", "hadoop-data-node-1", "hadoop-data-node-2"].each do |node_name|
-        config.vm.define node_name do |hadoop|
-            hadoop.vm.hostname = "#{node_name}.local"
-        end
+    # IMPORTANT: Because of vagrant's dynamic ansible inventory, and the need of using it's values as hostnames,
+    # the VM name must be the same of it's FQDN
+    [
+        "hadoop-name-node.local", "hadoop-secondary-name-node.local", "hadoop-data-node-1.local",
+        "hadoop-data-node-2.local"
+    ].each do |node_name|
+        config.vm.define node_name { |hadoop| hadoop.vm.hostname = "#{node_name}.local" }
     end
 
 end
