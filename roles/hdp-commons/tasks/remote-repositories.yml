@@ -1,6 +1,12 @@
 ---
-- name: Configuring remote repositories
+- name: Configuring HDP repository
   get_url:
     url: http://public-repo-1.hortonworks.com/HDP/centos7/2.x/updates/2.6.4.0/hdp.repo
     dest: /etc/yum.repos.d/hdp.repo
+    mode: 0644
+
+- name: Configuring HDP-GPL repository
+  get_url:
+    url: http://public-repo-1.hortonworks.com/HDP-GPL/centos7/2.x/updates/2.6.4.0/hdp.gpl.repo
+    dest: /etc/yum.repos.d/hdp.gpl.repo
     mode: 0644

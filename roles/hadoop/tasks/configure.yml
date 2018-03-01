@@ -1,5 +1,5 @@
 ---
-- name: Copy config files
+- name: Copy site config files
   template:
     src: "{{ item }}"
     dest: "{{ hadoop_conf_dir }}"
@@ -11,3 +11,23 @@
     - hdfs-site.xml
     - yarn-site.xml
     - mapred-site.xml
+
+- name: Copy config files
+  copy:
+    src: "{{ item }}"
+    dest: "{{ hadoop_conf_dir }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - capacity-scheduler.xml
+    - commons-logging.properties
+    - container-executor.cfg
+    - hadoop-env.sh
+    - hadoop-metrics2.properties
+    - hadoop-metrics2.properties-GANGLIA
+    - hadoop-policy.xml
+    - health_check
+    - log4j.properties
+    - mapred-queue-acls.xml
+    - yarn-env.sh
