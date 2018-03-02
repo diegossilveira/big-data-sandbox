@@ -25,7 +25,7 @@
 
 - name: Copy environment file to profile
   template:
-    src: hadoop_env.sh
+    src: hadoop_env.sh.j2
     dest: /etc/profile.d
     owner: root
     group: root

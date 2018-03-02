@@ -7,10 +7,10 @@
     group: root
     mode: 0644
   with_items:
-    - core-site.xml
-    - hdfs-site.xml
-    - yarn-site.xml
-    - mapred-site.xml
+    - core-site.xml.j2
+    - hdfs-site.xml.j2
+    - yarn-site.xml.j2
+    - mapred-site.xml.j2
 
 - name: Copy config files
   copy:

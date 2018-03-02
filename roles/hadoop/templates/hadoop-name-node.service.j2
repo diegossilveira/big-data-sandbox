@@ -1,0 +1,15 @@
+[Unit]
+Description=Apache Hadoop File System NameNode Service
+After=network.target
+
+[Service]
+Type=forking
+User={{ hdfs_user }}
+GROUP={{ hadoop_group }}
+Environment="JAVA_HOME=/usr/java/default"
+EnvironmentFile=/etc/profile.d/hadoop_env.sh
+ExecStart=/usr/hdp/current/hadoop-hdfs-namenode/../hadoop/sbin/hadoop-daemon.sh --config $HADOOP_CONF_DIR start namenode
+ExecStop=/usr/hdp/current/hadoop-hdfs-namenode/../hadoop/sbin/hadoop-daemon.sh --config $HADOOP_CONF_DIR stop namenode
+
+[Install]
+WantedBy=multi-user.target
