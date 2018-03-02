@@ -1,0 +1,18 @@
+---
+- name: 
+  shell: /usr/hdp/current/hadoop-hdfs-namenode/../hadoop/bin/hdfs namenode -format
+  become: true
+  become_user: hdfs
+
+- name: Create HDFS NameNode Service
+  template:
+    src: hadoop-name-node.service.j2
+    dest: /usr/lib/systemd/system/hadoop-name-node.service
+    owner: root
+    group: root
+    mode: 644
+  when: "'name_node' in group_names"
+
+- name: Force systemd to reload configs
+  systemd:
+    daemon_reload: yes

@@ -47,3 +47,5 @@
   shell: hdp-select set all {{ hdp_version.results[1].version }}-{{ hdp_version.results[1].release }}
 
 - import_tasks: configure.yml
+
+- import_tasks: create-systemd-services.yml
