@@ -1,0 +1,16 @@
+[Unit]
+Description=Apache Hadoop File System SecondayNameNode Service
+After=network.target
+
+[Service]
+Type=forking
+User={{ hdfs_user }}
+Group={{ hadoop_group }}
+Environment="JAVA_HOME=/usr/java/default"
+EnvironmentFile=/etc/profile.d/hadoop_env.sh
+ExecStart=/usr/hdp/current/hadoop-hdfs-secondaynamenode/../hadoop/sbin/hadoop-daemon.sh --config $HADOOP_CONF_DIR start secondarynamenode
+ExecStop=/usr/hdp/current/hadoop-hdfs-secondarynamenode/../hadoop/sbin/hadoop-daemon.sh --config $HADOOP_CONF_DIR stop secondarynamenode
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target
