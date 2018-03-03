@@ -40,11 +40,16 @@ Vagrant.configure("2") do |config|
         { hostname: "hadoop-secondary-name-node.local" },
         { hostname: "hadoop-data-node-1.local" },
         { hostname: "hadoop-data-node-2.local" },
-        { hostname: "zookeeper-1.local", memory: "512" },
-        { hostname: "zookeeper-2.local", memory: "512" },
-        { hostname: "zookeeper-3.local", memory: "512" }
+        { hostname: "zookeeper-2.local.vagrant.test", memory: "512" },
+        { hostname: "zookeeper-1.local.vagrant.test", memory: "512" },
+        { hostname: "zookeeper-3.local.vagrant.test", memory: "512" }
     ].each do |node|
-        config.vm.define node[:hostname] do |hadoop| 
+        config.vm.define node[:hostname] do |hadoop|
+
+            if node[:hostname].start_with?("zookeeper")
+                hadoop.landrush.enabled = true
+            end
+
             hadoop.vm.hostname = node[:hostname]
             hadoop.vm.provider "virtualbox" do |vb|
                 vb.gui = false

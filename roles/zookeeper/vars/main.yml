@@ -37,6 +37,6 @@ zookeeper_data_dir_myid: 1
 
 # Zookeepers hosts to set on cfg.zoo
 zookeeper_cluster_hosts:
-  zookeeper-1.local: 1
-  zookeeper-2.local: 2
-  zookeeper-3.local: 3
+  zookeeper-1.local.vagrant.test: 1
+  zookeeper-2.local.vagrant.test: 2
+  zookeeper-3.local.vagrant.test: 3
