@@ -20,6 +20,6 @@
 - name: Fix /etc/hosts to remove .local
   lineinfile:
     path: /etc/hosts
-    regexp: "^(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})\\s+(.*?)\\.local\.vagrant\.test\\s+\\2"
+    regexp: "^(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})\\s+(.*?)\\.local\\.vagrant\\.test\\s+\\2"
     backrefs: yes
     line: "\\1\\t\\2"
