@@ -23,33 +23,30 @@ Vagrant.configure("2") do |config|
         ansible.playbook = "provision.yml"
         ansible.groups = {
             "hadoop" => [],
-            "name_node" => ["hadoop-name-node.local"],
-            "secondary_name_node" => ["hadoop-secondary-name-node.local"],
-            "data_nodes" => ["hadoop-data-node-[1:2].local"],
-            "resource_manager" => ["hadoop-name-node.local"],
-            "job_history_server" => ["hadoop-name-node.local"],
+            "name_node" => ["hadoop-name-node.local.vagrant.test"],
+            "secondary_name_node" => ["hadoop-secondary-name-node.local.vagrant.test"],
+            "data_nodes" => ["hadoop-data-node-[1:2].local.vagrant.test"],
+            "resource_manager" => ["hadoop-name-node.local.vagrant.test"],
+            "job_history_server" => ["hadoop-name-node.local.vagrant.test"],
             "hadoop:children" => ["name_node", "secondary_name_nodes", "data_nodes"],
-            "zookeeper" => ["zookeeper-[1:3].local"]
+            "zookeeper" => ["zookeeper-[1:3].local.vagrant.test"]
         }
     end
 
     # IMPORTANT: Because of vagrant's dynamic ansible inventory, and the need of using it's values as hostnames,
     # the VM name must be the same of it's FQDN
     [
-        { hostname: "hadoop-name-node.local", memory: "1536" },
-        { hostname: "hadoop-secondary-name-node.local" },
-        { hostname: "hadoop-data-node-1.local" },
-        { hostname: "hadoop-data-node-2.local" },
+        { hostname: "hadoop-name-node.local.vagrant.test", memory: "1536" },
+        { hostname: "hadoop-secondary-name-node.local.vagrant.test" },
+        { hostname: "hadoop-data-node-1.local.vagrant.test" },
+        { hostname: "hadoop-data-node-2.local.vagrant.test" },
         { hostname: "zookeeper-2.local.vagrant.test", memory: "512" },
         { hostname: "zookeeper-1.local.vagrant.test", memory: "512" },
         { hostname: "zookeeper-3.local.vagrant.test", memory: "512" }
     ].each do |node|
         config.vm.define node[:hostname] do |hadoop|
 
-            if node[:hostname].start_with?("zookeeper")
-                hadoop.landrush.enabled = true
-            end
-
+            hadoop.landrush.enabled = true
             hadoop.vm.hostname = node[:hostname]
             hadoop.vm.provider "virtualbox" do |vb|
                 vb.gui = false
