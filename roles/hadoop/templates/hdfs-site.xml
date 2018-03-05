@@ -103,10 +103,6 @@
     <value>{{ fs_checkpoint_dirs | join(",") }}</value>
   </property>
   <property>
-    <name>dfs.journalnode.edits.dir</name>
-    <value>/grid/0/hdfs/journal</value>
-  </property>
-  <property>
     <name>dfs.blocksize</name>
     <value>134217728</value>
   </property>
@@ -128,7 +124,7 @@
   </property>
   <property>
     <name>dfs.https.namenode.https-address</name>
-    {% for host in groups['name_node'] %}        
+    {% for host in groups['name_node'] %}
     <value>{{ host }}:50470</value>
     {% endfor %}
   </property>
@@ -158,4 +154,64 @@
     <name>dfs.domain.socket.path</name>
     <value>/var/lib/hadoop-hdfs/dn_socket</value>
   </property>
+
+  {% if ha %}
+    <!-- Cluster HA -->
+    <property>
+      <name>dfs.nameservices</name>
+      <value>{{ cluster_name }}</value>
+    </property>
+    <property>
+      <name>dfs.ha.namenodes.{{ cluster_name }}</name>
+      <value>
+      {% for node in name_nodes %}
+        {{ hostvars[node]['name_node_id'] }}{% if !loop.last %},{% endif %}
+      {% endfor %}
+      </value>
+    </property>
+
+    {% for node in name_nodes %}
+    <property>
+      <name>dfs.namenode.rpc-address.{{ cluster_name }}.{{ hostvars[node]['name_node_id'] }}</name>
+      <value>{{ node }}:8020</value>
+    </property>
+
+    <property>
+      <name>dfs.namenode.http-address.{{ cluster_name }}.{{ hostvars[node]['name_node_id'] }}</name>
+      <value>{{ node }}:50070</value>
+    </property>
+    {% endfor %}
+
+    <property>
+      <name>dfs.namenode.shared.edits.dir</name>
+      <value>
+      qjournal://{% for node in journal_nodes %}{{ node }}:8485{% if !loop.last %};{% endif %}{% endfor %}/{{ cluster_name }}
+      <value>
+    </property>
+
+    <property>
+      <name>dfs.client.failover.proxy.provider.{{ cluster_name }}</name>
+      <value>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider</value>
+    </property>
+
+    <property>
+      <name>dfs.ha.fencing.methods</name>
+      <value>
+        sshfence
+        shell(/bin/true)
+      </value>
+    </property>
+
+    <property>
+      <name>dfs.ha.fencing.ssh.private-key-files</name>
+      <value>{{ ssh_private_key_path }}</value>
+    </property>
+
+    <property>
+      <name>dfs.journalnode.edits.dir</name>
+      <value>{{ dfs_jn_edits_dir }}</value>
+    </property>
+
+  {% endif %}
+
 </configuration>

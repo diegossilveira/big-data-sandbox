@@ -71,11 +71,16 @@
     <name>hadoop.security.authorization</name>
     <value>false</value>
   </property>
+
   <property>
     <name>fs.defaultFS</name>
-    {% for host in groups['name_node'] %}    
-    <value>hdfs://{{ host }}:8020</value>
-    {% endfor %}
+    {% if ha %}
+      <value>hdfs://{{ cluster_name }}</value>
+    {% else %}
+      {% for host in groups['name_node'] %}
+      <value>hdfs://{{ host }}:8020</value>
+      {% endfor %}
+    {% endif %}
   </property>
   <property>
     <name>mapreduce.jobtracker.webinterface.trusted</name>

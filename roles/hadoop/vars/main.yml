@@ -50,3 +50,9 @@ mapred_log_dir: /var/log/hadoop/mapred
 
 # Directory to store the mapreduce jobhistory process ID.
 mapred_pid_dir: /var/run/hadoop/mapred
+
+# Cluster name
+cluster_name: zdfs
+
+# Directory to store JournalNode state (HA)
+dfs_jn_edits_dir: /grid/0/hdfs/journal

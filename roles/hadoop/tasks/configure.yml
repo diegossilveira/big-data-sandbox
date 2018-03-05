@@ -1,4 +1,16 @@
 ---
+- name: Joining name_node groups hosts
+  set_fact:
+    name_nodes: "{{ (groups['name_node'] + groups['secondary_name_node']) }}"
+
+- name: Ensure JournalNode dir exists
+  file:
+    path: "{{ dfs_jn_edits_dir }}"
+    state: directory
+    mode: 0644
+    owner: "{{ hdfs_user }}"
+    group: "{{ hadoop_group }}"
+
 - name: Copy site config files
   template:
     src: "{{ item }}"
