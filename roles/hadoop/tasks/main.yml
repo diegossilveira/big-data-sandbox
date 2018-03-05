@@ -25,8 +25,8 @@
 
 - name: Copy environment file to profile
   template:
-    src: hadoop_env.sh
-    dest: /etc/profile.d
+    src: hadoop_env.sh.j2
+    dest: /etc/profile.d/hadoop_env.sh
     owner: root
     group: root
     mode: 0644
@@ -47,3 +47,5 @@
   shell: hdp-select set all {{ hdp_version.results[1].version }}-{{ hdp_version.results[1].release }}
 
 - import_tasks: configure.yml
+
+- import_tasks: create-systemd-services.yml

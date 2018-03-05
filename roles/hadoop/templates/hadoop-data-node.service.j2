@@ -1,0 +1,16 @@
+[Unit]
+Description=Apache Hadoop File System DataNode Service
+After=network.target
+
+[Service]
+Type=forking
+User={{ hdfs_user }}
+Group={{ hadoop_group }}
+Environment="JAVA_HOME=/usr/java/default"
+EnvironmentFile=/etc/profile.d/hadoop_env.sh
+ExecStart=/usr/hdp/current/hadoop-hdfs-datanode/../hadoop/sbin/hadoop-daemon.sh --config $HADOOP_CONF_DIR start datanode
+ExecStop=/usr/hdp/current/hadoop-hdfs-datanode/../hadoop/sbin/hadoop-daemon.sh --config $HADOOP_CONF_DIR stop datanode
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

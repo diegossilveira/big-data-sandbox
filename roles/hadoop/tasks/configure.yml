@@ -13,8 +13,8 @@
 
 - name: Copy site config files
   template:
-    src: "{{ item }}"
-    dest: "{{ hadoop_conf_dir }}"
+    src: "{{ item }}.j2"
+    dest: "{{ hadoop_conf_dir }}/{{ item }}"
     owner: root
     group: root
     mode: 0644

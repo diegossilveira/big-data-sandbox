@@ -7,6 +7,7 @@ ExecStart={{ zookeeper_home_dir }}/bin/zkServer.sh start
 ExecStop={{ zookeeper_home_dir }}/bin/zkServer.sh stop
 User={{ zookeeper_user }}
 Group={{ hadoop_group }}
+SuccessExitStatus=0 9 143 KILL
 
 [Install]
 WantedBy=multi-user.target

@@ -1,0 +1,59 @@
+---
+- name: Format HDFS NameNode
+  shell: /usr/hdp/current/hadoop-hdfs-namenode/../hadoop/bin/hdfs namenode -format
+  become: true
+  become_user: hdfs
+  when: "'name_node' in group_names"
+  ignore_errors: yes
+
+- name: Create HDFS NameNode Service
+  template:
+    src: hadoop-name-node.service.j2
+    dest: /usr/lib/systemd/system/hadoop-name-node.service
+    owner: root
+    group: root
+    mode: 644
+  when: "'name_node' in group_names"
+
+- name: Create HDFS SecondaryNameNode Service
+  template:
+    src: hadoop-seconday-name-node.service.j2
+    dest: /usr/lib/systemd/system/hadoop-secondary-name-node.service
+    owner: root
+    group: root
+    mode: 644
+  when: "'secondary_name_node' in group_names"
+
+- name: Create HDFS DataNode Service
+  template:
+    src: hadoop-data-node.service.j2
+    dest: /usr/lib/systemd/system/hadoop-data-node.service
+    owner: root
+    group: root
+    mode: 644
+  when: "'data_nodes' in group_names"
+
+- name: Force systemd to reload configs
+  systemd:
+    daemon_reload: yes
+
+- name: Start HDFS NameNode Service
+  systemd:
+    name: hadoop-name-node
+    state: started
+    enabled: yes
+  when: "'name_node' in group_names"
+
+- name: Start HDFS SecondaryNameNode Service
+  systemd:
+    name: hadoop-seconday-name-node
+    state: started
+    enabled: yes
+  when: "'secondary_name_node' in group_names"
+
+- name: Start HDFS DataNode Service
+  systemd:
+    name: hadoop-data-node
+    state: started
+    enabled: yes
+  when: "'data_nodes' in group_names"

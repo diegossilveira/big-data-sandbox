@@ -54,15 +54,17 @@
 - name: Create systemd service to enable zookeeper start on boot
   template:
     src: zookeeper.service.j2
-    dest: /etc/systemd/system/zookeeper.service
+    dest: /usr/lib/systemd/system/zookeeper.service
     owner: root
     group: root
     mode: 0644
 
 - name: reload systemctl
-  systemd: daemon_reload=yes
+  systemd:
+    daemon_reload: yes
 
 - name: Start ZooKeeper
   systemd:
     state: started
     name: zookeeper
+    enabled: yes

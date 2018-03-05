@@ -30,6 +30,7 @@ Vagrant.configure("2") do |config|
         { hostname: "zookeeper-2.local", memory: "512" },
         { hostname: "zookeeper-3.local", memory: "512" }
     ]
+
     hosts.each do |node|
         config.vm.define node[:hostname] do |hadoop| 
             hadoop.vm.hostname = node[:hostname]
