@@ -8,14 +8,27 @@
 
 DEFAULT_VM_MEMORY = "1024"
 VM_BOOT_TIMEOUT = 120
+NETWORK_GATEWAY = "172.28.128.1"
 
 Vagrant.configure("2") do |config|
 
     config.vm.box = "centos/7"
-    config.vm.network "private_network", type: "dhcp"
     config.vm.boot_timeout = VM_BOOT_TIMEOUT
 
+    # IMPORTANT: Because of vagrant's dynamic ansible inventory, and the need of using it's values as hostnames,
+    # the VM name must be the same of it's FQDN
+    hosts = [
+        { hostname: "hadoop-name-node.local", memory: "1536" },
+        # { hostname: "hadoop-secondary-name-node.local" },
+        { hostname: "hadoop-data-node-1.local" },
+        { hostname: "hadoop-data-node-2.local" }
+        # { hostname: "zookeeper-2.local", memory: "512" },
+        # { hostname: "zookeeper-1.local", memory: "512" },
+        # { hostname: "zookeeper-3.local", memory: "512" }
+    ]
+
     config.vm.provision "ansible" do |ansible|
+        ansible.extra_vars = { domain_names: domain_names(hosts) }
         ansible.playbook = "provision-network.yml"
     end
 
@@ -32,21 +45,12 @@ Vagrant.configure("2") do |config|
             "zookeeper" => ["zookeeper-[1:3].local"]
         }
     end
-
-    # IMPORTANT: Because of vagrant's dynamic ansible inventory, and the need of using it's values as hostnames,
-    # the VM name must be the same of it's FQDN
-    [
-        { hostname: "hadoop-name-node.local", memory: "1536" },
-        { hostname: "hadoop-secondary-name-node.local" },
-        { hostname: "hadoop-data-node-1.local" },
-        { hostname: "hadoop-data-node-2.local" },
-        { hostname: "zookeeper-2.local", memory: "512" },
-        { hostname: "zookeeper-1.local", memory: "512" },
-        { hostname: "zookeeper-3.local", memory: "512" }
-    ].each do |node|
+   
+    hosts.each_with_index do |node, i|
         config.vm.define node[:hostname] do |hadoop|
 
             hadoop.vm.hostname = node[:hostname]
+            hadoop.vm.network "private_network", ip: "#{NETWORK_GATEWAY}#{i}"
             hadoop.vm.provider "virtualbox" do |vb|
                 vb.gui = false
                 vb.memory = node[:memory] || DEFAULT_VM_MEMORY
@@ -55,4 +59,7 @@ Vagrant.configure("2") do |config|
     end
 
 end
-   
+
+def domain_names(hosts)
+    hosts.each_with_index.map { |host, i| { ip: "#{NETWORK_GATEWAY}#{i}", fqdn: host[:hostname] } }
+end
