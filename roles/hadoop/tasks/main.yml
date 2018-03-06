@@ -49,3 +49,6 @@
 - import_tasks: configure.yml
 
 - import_tasks: create-systemd-services.yml
+
+- include_tasks: deploy-ha-cluster.yml
+  when: ha == true

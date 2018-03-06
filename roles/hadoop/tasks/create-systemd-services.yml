@@ -33,6 +33,15 @@
     mode: 644
   when: "'data_nodes' in group_names"
 
+- name: Create HDFS JournalNode Service
+  template:
+    src: hadoop-journal-node.service.j2
+    dest: /usr/lib/systemd/system/hadoop-journal-node.service
+    owner: root
+    group: root
+    mode: 644
+  when: "'journal_nodes' in group_names" and ha == true
+
 - name: Force systemd to reload configs
   systemd:
     daemon_reload: yes
@@ -57,3 +66,10 @@
     state: started
     enabled: yes
   when: "'data_nodes' in group_names"
+
+- name: Start HDFS JournalNode Service
+  systemd:
+    name: hadoop-journal-node
+    state: started
+    enabled: yes
+  when: "'journal_nodes' in group_names" and ha == true
