@@ -73,7 +73,7 @@
   </property>
   <property>
     <name>fs.defaultFS</name>
-    {% for host in groups['name_node'] %}    
+    {% for host in groups['name_node'] %}
     <value>hdfs://{{ host }}:8020</value>
     {% endfor %}
   </property>

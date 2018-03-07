@@ -31,8 +31,25 @@ Vagrant.configure("2") do |config|
         ansible.extra_vars = { domain_names: domain_names(hosts) }
         ansible.playbook = "provision-network.yml"
     end
+  
+    hosts.each_with_index do |node, i|
+        config.vm.define node[:hostname] do |hadoop|
+            hadoop.vm.hostname = node[:hostname]
+            hadoop.vm.network "private_network", ip: "#{NETWORK_GATEWAY}#{i}"
+            hadoop.vm.provider "virtualbox" do |vb|
+                vb.gui = false
+                vb.memory = node[:memory] || DEFAULT_VM_MEMORY
+            end
 
+            hdp_provision(config) if node == hosts.last
+        end
+    end
+
+end
+
+def hdp_provision(config)
     config.vm.provision "ansible" do |ansible|
+        ansible.limit = "all"
         ansible.playbook = "provision.yml"
         ansible.groups = {
             "hadoop" => [],
@@ -41,28 +58,19 @@ Vagrant.configure("2") do |config|
             "data_nodes" => ["hadoop-data-node-[1:2].local"],
             "resource_manager" => ["hadoop-name-node.local"],
             "job_history_server" => ["hadoop-name-node.local"],
-            "hadoop:children" => ["name_node", "secondary_name_nodes", "data_nodes"],
+            "hadoop:children" => ["name_node", "secondary_name_node", "data_nodes"],
+            "journal_nodes" => [],
+            "journal_nodes:children" => ["secondary_name_node", "data_nodes"],
             "zookeeper" => ["zookeeper-[1:3].local"],
             "zookeeper:vars" => {
                 "zookeeper-1.local.myid" => 1,
                 "zookeeper-2.local.myid" => 2,
                 "zookeeper-3.local.myid" => 3
-            }
+            },
+            "name_node:vars" => { "name_node_id" => "nn1" },
+            "secondary_name_node:vars" => { "name_node_id" => "nn2" }
         }
     end
-   
-    hosts.each_with_index do |node, i|
-        config.vm.define node[:hostname] do |hadoop|
-
-            hadoop.vm.hostname = node[:hostname]
-            hadoop.vm.network "private_network", ip: "#{NETWORK_GATEWAY}#{i}"
-            hadoop.vm.provider "virtualbox" do |vb|
-                vb.gui = false
-                vb.memory = node[:memory] || DEFAULT_VM_MEMORY
-            end
-        end
-    end
-
 end
 
 def domain_names(hosts)

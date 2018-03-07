@@ -1,0 +1,38 @@
+---
+- name: Format JournalNodes
+  shell: su –l hdfs –c "hdfs namenode -initializeSharedEdits -force"
+  when: "'name_node' in group_names"
+
+- name: Initialize HA state in ZooKeeper
+  shell: hdfs zkfc -formatZK -force
+  when: "'name_node' in group_names"
+
+- name: Format secondary namenode and copy latest checkpoint from primary namenode
+  shell: su -l hdfs -c "hdfs namenode -bootstrapStandby -force"
+  when: "'secondary_name_node' in group_names"
+
+- name: Restart HDFS NameNode Service
+  systemd:
+    name: hadoop-name-node
+    state: restarted
+    enabled: yes
+  when: "'name_node' in group_names"
+
+- name: Restart HDFS SecondaryNameNode Service
+  systemd:
+    name: hadoop-seconday-name-node
+    state: restarted
+    enabled: yes
+  when: "'secondary_name_node' in group_names"
+
+- name: Restart HDFS DataNode Service
+  systemd:
+    name: hadoop-data-node
+    state: restarted
+    enabled: yes
+  when: "'data_nodes' in group_names"
+
+- name: Check HA state
+  fail:
+    msg: "Not checking yet..."
+  ignore_errors: yes

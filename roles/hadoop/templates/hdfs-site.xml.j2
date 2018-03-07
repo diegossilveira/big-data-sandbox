@@ -128,7 +128,7 @@
   </property>
   <property>
     <name>dfs.https.namenode.https-address</name>
-    {% for host in groups['name_node'] %}        
+    {% for host in groups['name_node'] %}
     <value>{{ host }}:50470</value>
     {% endfor %}
   </property>
