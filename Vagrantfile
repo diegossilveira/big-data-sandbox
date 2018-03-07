@@ -27,10 +27,10 @@ Vagrant.configure("2") do |config|
         { hostname: "zookeeper-3.local", memory: "512" }
     ]
 
-    # config.vm.provision "ansible" do |ansible|
-    #     ansible.extra_vars = { domain_names: domain_names(hosts) }
-    #     ansible.playbook = "provision-network.yml"
-    # end
+    config.vm.provision "ansible" do |ansible|
+        ansible.extra_vars = { domain_names: domain_names(hosts) }
+        ansible.playbook = "provision-network.yml"
+    end
 
     config.vm.provision "ansible" do |ansible|
         ansible.playbook = "provision.yml"
