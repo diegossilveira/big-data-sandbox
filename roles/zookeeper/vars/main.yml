@@ -3,16 +3,19 @@
 zookeeper_home_dir: /usr/hdp/current/zookeeper-server
 
 # the directory to store the ZooKeeper configuration files
-zookeeper_conf_dir: "/etc/zookeeper"
+zookeeper_conf_dir: /usr/hdp/current/zookeeper-server/conf
 
 # the zookeeper "directory" to stor zookeeper server pid
-zookeeper_pid_dir: /var/run/zookeeper/zookeeper_server.pid
+zookeeper_pid_dir: /var/run/zookeeper
 
 # the directory to store the ZooKeeper data files
 zookeeper_data_dir: /grid/hadoop/zookeeper/data
 
 # the directory to store the ZooKeeper logs
 zookeeper_log_dir: /var/log/zookeeper
+
+# the zookeeper log file name
+zookeeper_log_file: zookeeper.log
 
 # the user owning the ZooKeeper services
 zookeeper_user: zookeeper
