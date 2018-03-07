@@ -51,7 +51,6 @@ def hdp_provision(config)
     config.vm.provision "ansible" do |ansible|
         ansible.limit = "all"
         ansible.playbook = "provision.yml"
-        ansible.extra_vars = { ha: true }
         ansible.groups = {
             "hadoop" => [],
             "name_node" => ["hadoop-name-node.local"],
