@@ -3,7 +3,7 @@
 zookeeper_home_dir: /usr/hdp/current/zookeeper-server
 
 # the directory to store the ZooKeeper configuration files
-zookeeper_conf_dir: "{{ zookeeper_home_dir }}/conf"
+zookeeper_conf_dir: "/etc/zookeeper"
 
 # the zookeeper "directory" to stor zookeeper server pid
 zookeeper_pid_dir: /var/run/zookeeper/zookeeper_server.pid
@@ -29,14 +29,8 @@ zookeeper_init_limit: 10
 # the port at which the clients will connect
 zookeeper_client_port: 2181
 
+# Amount of time, in ticks, to allow followers to sync with ZooKeeper. If followers fall too far behind a leader, they will be dropped.
+zookeeper_sync_limit: 2
+
 # name of the hadoop global group
 hadoop_group: hadoop
-
-# {{ zookeeper_conf_dir }}/myid placeholder
-zookeeper_data_dir_myid: 1
-
-# Zookeepers hosts to set on cfg.zoo
-zookeeper_cluster_hosts:
-  zookeeper-1.local: 1
-  zookeeper-2.local: 2
-  zookeeper-3.local: 3

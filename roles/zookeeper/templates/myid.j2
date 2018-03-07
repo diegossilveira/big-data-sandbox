@@ -1,1 +1,1 @@
-{{ zookeeper_cluster_hosts[inventory_hostname] }}
+{{ hostvars[inventory_hostname][inventory_hostname + '.myid'] | default('1') }}

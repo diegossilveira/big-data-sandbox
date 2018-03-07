@@ -1,12 +1,12 @@
 tickTime={{ zookeeper_tick_time }}
 initLimit={{ zookeeper_init_limit }}
 dataDir={{ zookeeper_data_dir }}
-clientPort=2181
-syncLimit=2
+clientPort={{ zookeeper_client_port | default('2181') }}
+syncLimit={{ zookeeper_sync_limit | default('2') }}
 
-{% for host in zookeeper_cluster_hosts %}
+{% for host in groups['zookeeper'] %}
 # Host {{ host }}
-server.{{ zookeeper_cluster_hosts[host] }}={{ host }}:2888:3888
+server.{{ hostvars[inventory_hostname][host + '.myid'] }}={{ host }}:2888:3888
 {% endfor %}
 
 zookeeper.log.dir={{ zookeeper_log_dir }}

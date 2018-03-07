@@ -18,19 +18,19 @@ Vagrant.configure("2") do |config|
     # IMPORTANT: Because of vagrant's dynamic ansible inventory, and the need of using it's values as hostnames,
     # the VM name must be the same of it's FQDN
     hosts = [
-        { hostname: "hadoop-name-node.local", memory: "1536" },
-        { hostname: "hadoop-secondary-name-node.local" },
-        { hostname: "hadoop-data-node-1.local" },
-        { hostname: "hadoop-data-node-2.local" },
+        # { hostname: "hadoop-name-node.local", memory: "1536" },
+        # { hostname: "hadoop-secondary-name-node.local" },
+        # { hostname: "hadoop-data-node-1.local" },
+        # { hostname: "hadoop-data-node-2.local" },
         { hostname: "zookeeper-1.local", memory: "512" },
         { hostname: "zookeeper-2.local", memory: "512" },
         { hostname: "zookeeper-3.local", memory: "512" }
     ]
 
-    config.vm.provision "ansible" do |ansible|
-        ansible.extra_vars = { domain_names: domain_names(hosts) }
-        ansible.playbook = "provision-network.yml"
-    end
+    # config.vm.provision "ansible" do |ansible|
+    #     ansible.extra_vars = { domain_names: domain_names(hosts) }
+    #     ansible.playbook = "provision-network.yml"
+    # end
 
     config.vm.provision "ansible" do |ansible|
         ansible.playbook = "provision.yml"
@@ -44,9 +44,9 @@ Vagrant.configure("2") do |config|
             "hadoop:children" => ["name_node", "secondary_name_nodes", "data_nodes"],
             "zookeeper" => ["zookeeper-[1:3].local"],
             "zookeeper:vars" => {
-                "zookeeper-1.local" => { "mydid": 1 },
-                "zookeeper-2.local" => { "mydid": 2 },
-                "zookeeper-3.local" => { "mydid": 3 }
+                "zookeeper-1.local.myid" => 1,
+                "zookeeper-2.local.myid" => 2,
+                "zookeeper-3.local.myid" => 3
             }
         }
     end
