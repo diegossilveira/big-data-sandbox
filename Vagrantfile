@@ -19,12 +19,12 @@ Vagrant.configure("2") do |config|
     # the VM name must be the same of it's FQDN
     hosts = [
         { hostname: "hadoop-name-node.local", memory: "1536" },
-        # { hostname: "hadoop-secondary-name-node.local" },
+        { hostname: "hadoop-secondary-name-node.local" },
         { hostname: "hadoop-data-node-1.local" },
-        { hostname: "hadoop-data-node-2.local" }
-        # { hostname: "zookeeper-2.local", memory: "512" },
-        # { hostname: "zookeeper-1.local", memory: "512" },
-        # { hostname: "zookeeper-3.local", memory: "512" }
+        { hostname: "hadoop-data-node-2.local" },
+        { hostname: "zookeeper-2.local", memory: "512" },
+        { hostname: "zookeeper-1.local", memory: "512" },
+        { hostname: "zookeeper-3.local", memory: "512" }
     ]
 
     config.vm.provision "ansible" do |ansible|
