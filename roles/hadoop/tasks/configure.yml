@@ -10,6 +10,7 @@
     mode: 0644
     owner: "{{ hdfs_user }}"
     group: "{{ hadoop_group }}"
+  when: "'journal_nodes' in group_names" and ha == true
 
 - name: Copy site config files
   template:

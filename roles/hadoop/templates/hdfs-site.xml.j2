@@ -197,15 +197,17 @@
     <property>
       <name>dfs.ha.fencing.methods</name>
       <value>
-        sshfence
-        shell(/bin/true)
+        <!-- sshfence
+        -->shell(/bin/true)
       </value>
     </property>
 
+    <!--
     <property>
       <name>dfs.ha.fencing.ssh.private-key-files</name>
       <value>{{ ssh_private_key_path }}</value>
     </property>
+    -->
 
     <property>
       <name>dfs.journalnode.edits.dir</name>
