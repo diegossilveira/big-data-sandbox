@@ -23,16 +23,16 @@
   template:
     src: zoo.cfg.j2
     dest: "{{ zookeeper_conf_dir }}/zoo.cfg"
-    owner: root
-    group: root
+    owner: "{{ zookeeper_user }}"
+    group: "{{ hadoop_group }}"
     mode: 0644
 
 - name: Update zookeeper-env.sh
   template:
     src: zookeeper-env.sh
     dest: "{{ zookeeper_conf_dir }}/zookeeper-env.sh"
-    owner: root
-    group: root
+    owner: "{{ zookeeper_user }}"
+    group: "{{ hadoop_group }}"
     mode: 0644
 
 - name: Update zookeeper-env.sh
@@ -58,6 +58,12 @@
     owner: root
     group: root
     mode: 0644
+
+- name: Add zookeeper-env.sh into bashrc
+  lineinfile:
+    dest: /etc/bashrc
+    line: "source /etc/profile.d/zookeeper-env.sh"
+    state: present
 
 - name: reload systemctl
   systemd:
