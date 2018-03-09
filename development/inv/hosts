@@ -1,0 +1,16 @@
+[name_node]
+realwave-insights-default01.azure.zup.com.br
+
+[resource_manager]
+realwave-insights-default01.azure.zup.com.br
+
+[job_history_server]
+realwave-insights-default01.azure.zup.com.br
+
+[data_nodes]
+realwave-insights-default02.azure.zup.com.br
+realwave-insights-default03.azure.zup.com.br
+
+[hadoop:children]
+name_node
+data_nodes
