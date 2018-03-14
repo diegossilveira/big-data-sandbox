@@ -1,15 +1,15 @@
 [name_node]
-realwave-insights-default01.azure.zup.com.br
+realwave-insights-namenode.azure.zup.com.br internal_fqdn=namenode.insights.local
 
 [resource_manager]
-realwave-insights-default01.azure.zup.com.br
+realwave-insights-namenode.azure.zup.com.br internal_fqdn=namenode.insights.local
 
 [job_history_server]
-realwave-insights-default01.azure.zup.com.br
+realwave-insights-namenode.azure.zup.com.br internal_fqdn=namenode.insights.local
 
 [data_nodes]
-realwave-insights-default02.azure.zup.com.br
-realwave-insights-default03.azure.zup.com.br
+realwave-insights-datanode01.azure.zup.com.br internal_fqdn=datanode01.insights.local
+realwave-insights-datanode02.azure.zup.com.br internal_fqdn=datanode02.insights.local
 
 [hadoop:children]
 name_node
