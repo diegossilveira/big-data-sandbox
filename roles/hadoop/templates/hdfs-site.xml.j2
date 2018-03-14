@@ -39,7 +39,7 @@
   <property>
     <name>dfs.namenode.http-address</name>
     {% for host in groups['name_node'] %}        
-    <value>{{ host }}:50070</value>
+    <value>{{ hostvars[host]['internal_fqdn'] | default(host) }}:50070</value>
     {% endfor %}
   </property>
   <property>
@@ -129,7 +129,7 @@
   <property>
     <name>dfs.https.namenode.https-address</name>
     {% for host in groups['name_node'] %}
-    <value>{{ host }}:50470</value>
+    <value>{{ hostvars[host]['internal_fqdn'] | default(host) }}:50470</value>
     {% endfor %}
   </property>
   <property>
@@ -140,12 +140,14 @@
     <name>dfs.namenode.handler.count</name>
     <value>100</value>
   </property>
+  {% if groups['secondary_name_node'] is defined %}
   <property>
     <name>dfs.namenode.secondary.http-address</name>
     {% for host in groups['secondary_name_node'] %}        
-    <value>{{ host }}:50090</value>
+    <value>{{ hostvars[host]['internal_fqdn'] | default(host) }}:50090</value>
     {% endfor %}  
   </property>
+  {% endif %}
   <property>
     <name>dfs.permissions.superusergroup</name>
     <value>hdfs</value>

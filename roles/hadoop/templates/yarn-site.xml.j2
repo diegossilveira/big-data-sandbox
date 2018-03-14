@@ -27,13 +27,13 @@
   <property>
     <name>yarn.log.server.url</name>
     {% for host in groups['job_history_server'] %}        
-    <value>{{ host }}:19888/jobhistory/logs</value>
+    <value>{{ hostvars[host]['internal_fqdn'] | default(host) }}:19888/jobhistory/logs</value>
     {% endfor %}
   </property>
   <property>
     <name>yarn.resourcemanager.admin.address</name>
     {% for host in groups['resource_manager'] %}        
-    <value>{{ host }}:8141</value>
+    <value>{{ hostvars[host]['internal_fqdn'] | default(host) }}:8141</value>
     {% endfor %}
   </property>
   <property>
@@ -71,7 +71,7 @@
   <property>
     <name>yarn.resourcemanager.resource-tracker.address</name>
     {% for host in groups['resource_manager'] %}        
-    <value>{{ host }}:8025</value>
+    <value>{{ hostvars[host]['internal_fqdn'] | default(host) }}:8025</value>
     {% endfor %}
   </property>
   <property>
@@ -109,13 +109,13 @@
   <property>
     <name>yarn.resourcemanager.webapp.address</name>
     {% for host in groups['resource_manager'] %}        
-    <value>{{ host }}:8088</value>
+    <value>{{ hostvars[host]['internal_fqdn'] | default(host) }}:8088</value>
     {% endfor %}
   </property>
   <property>
     <name>yarn.timeline-service.webapp.address</name>
     {% for host in groups['resource_manager'] %}        
-    <value>{{ host }}:8188</value>
+    <value>{{ hostvars[host]['internal_fqdn'] | default(host) }}:8188</value>
     {% endfor %}
   </property>
   <property>
@@ -125,7 +125,7 @@
   <property>
     <name>yarn.resourcemanager.address</name>
     {% for host in groups['resource_manager'] %}        
-    <value>{{ host }}:8050</value>
+    <value>{{ hostvars[host]['internal_fqdn'] | default(host) }}:8050</value>
     {% endfor %}
   </property>
   <property>
@@ -143,7 +143,7 @@
   <property>
     <name>yarn.resourcemanager.scheduler.address</name>
     {% for host in groups['resource_manager'] %}        
-    <value>{{ host }}:8030</value>
+    <value>{{ hostvars[host]['internal_fqdn'] | default(host) }}:8030</value>
     {% endfor %}
   </property>
 </configuration>

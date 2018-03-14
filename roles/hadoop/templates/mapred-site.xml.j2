@@ -15,7 +15,7 @@
   <property>
     <name>mapreduce.jobhistory.address</name>
     {% for host in groups['job_history_server'] %}        
-    <value>{{ host }}:10020</value>
+    <value>{{ hostvars[host]['internal_fqdn'] | default(host) }}:10020</value>
     {% endfor %}
   </property>
   <property>
@@ -61,7 +61,7 @@
   <property>
     <name>mapreduce.jobhistory.webapp.address</name>
     {% for host in groups['job_history_server'] %}        
-    <value>{{ host }}:19888</value>
+    <value>{{ hostvars[host]['internal_fqdn'] | default(host) }}:19888</value>
     {% endfor %}
   </property>
   <property>
