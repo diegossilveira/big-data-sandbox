@@ -1,7 +1,7 @@
 ---
 - name: Joining name_node groups hosts
   set_fact:
-    name_nodes: "{{ (groups['name_node'] + groups['secondary_name_node']) }}"
+    name_nodes: "{{ (groups['name_node'] + (groups['secondary_name_node'] | default([]) )) }}"
 
 - name: Ensure JournalNode dir exists
   file:
