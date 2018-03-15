@@ -1,0 +1,11 @@
+---
+- name: Setup hive
+  debug:
+    msg: "Not implemented"
+
+- name: Create Hive user
+  user:
+    name: "{{ hive_user }}"
+    password: "{{ hive_password }}"
+
+- include_tasks: setup-mysql.yml
