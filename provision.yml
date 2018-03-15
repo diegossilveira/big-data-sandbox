@@ -12,3 +12,8 @@
   become: yes
   roles:
     - hadoop
+
+- hosts: hive
+  become: yes
+  roles:
+    - hive
