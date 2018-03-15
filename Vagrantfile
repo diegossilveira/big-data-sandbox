@@ -21,7 +21,8 @@ Vagrant.configure("2") do |config|
         { hostname: "hadoop-name-node.local", memory: "1536" },
         # { hostname: "hadoop-secondary-name-node.local" },
         { hostname: "hadoop-data-node-1.local" },
-        { hostname: "hadoop-data-node-2.local" }
+        { hostname: "hadoop-data-node-2.local" },
+        { hostname: "hadoop-client-node-1.local" }
         # { hostname: "zookeeper-1.local", memory: "512" },
         # { hostname: "zookeeper-2.local", memory: "512" },
         # { hostname: "zookeeper-3.local", memory: "512" }
@@ -56,9 +57,10 @@ def hdp_provision(config)
             "name_node" => ["hadoop-name-node.local"],
             "secondary_name_node" => ["hadoop-secondary-name-node.local"],
             "data_nodes" => ["hadoop-data-node-[1:2].local"],
+            "client_nodes" => ["hadoop-client-node-1.local"],
             "resource_manager" => ["hadoop-name-node.local"],
             "job_history_server" => ["hadoop-name-node.local"],
-            "hadoop:children" => ["name_node", "secondary_name_node", "data_nodes"],
+            "hadoop:children" => ["name_node", "secondary_name_node", "data_nodes", "client_nodes"],
             "journal_nodes" => [],
             "journal_nodes:children" => ["secondary_name_node", "data_nodes"],
             "zookeeper" => ["zookeeper-[1:3].local"],
