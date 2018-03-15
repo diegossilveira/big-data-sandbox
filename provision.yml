@@ -12,3 +12,8 @@
   become: yes
   roles:
     - hadoop
+
+- hosts: client_nodes
+  become: yes
+  roles:
+    - tez
