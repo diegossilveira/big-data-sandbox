@@ -1,0 +1,45 @@
+---
+- name: Joining name_node groups hosts
+  set_fact:
+    name_nodes: "{{ (groups['name_node'] + (groups['secondary_name_node'] | default([]) )) }}"
+
+- name: Ensure JournalNode dir exists
+  file:
+    path: "{{ dfs_jn_edits_dir }}"
+    state: directory
+    mode: 0644
+    owner: "{{ hdfs_user }}"
+    group: "{{ hadoop_group }}"
+
+- name: Copy site config files
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ hadoop_conf_dir }}/{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - core-site.xml
+    - hdfs-site.xml
+    - yarn-site.xml
+    - mapred-site.xml
+
+- name: Copy config files
+  copy:
+    src: "{{ item }}"
+    dest: "{{ hadoop_conf_dir }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - capacity-scheduler.xml
+    - commons-logging.properties
+    - container-executor.cfg
+    - hadoop-env.sh
+    - hadoop-metrics2.properties
+    - hadoop-metrics2.properties-GANGLIA
+    - hadoop-policy.xml
+    - health_check
+    - log4j.properties
+    - mapred-queue-acls.xml
+    - yarn-env.sh

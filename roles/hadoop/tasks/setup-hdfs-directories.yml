@@ -1,0 +1,46 @@
+---
+- name: Create the NameNode directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ hdfs_user }}"
+    group: "{{ hadoop_group }}"
+    mode: 0755
+  with_items: "{{ dfs_name_dirs }}"
+  when: "'name_node' in group_names"
+
+- name: Create the SecondaryNameNode directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ hdfs_user }}"
+    group: "{{ hadoop_group }}"
+    mode: 0755
+  with_items: "{{ fs_checkpoint_dirs }}"
+  when: "'secondary_name_node' in group_names"
+
+- name: Create DataNode directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ hdfs_user }}"
+    group: "{{ hadoop_group }}"
+    mode: 0750
+  with_items: "{{ dfs_data_dirs }}"
+  when: "'data_nodes' in group_names"
+
+- name: Create HDFS log directory
+  file:
+    path: "{{ hdfs_log_dir }}"
+    state: directory
+    owner: "{{ hdfs_user }}"
+    group: "{{ hadoop_group }}"
+    mode: 0755
+
+- name: Create HDFS PID directory
+  file:
+    path: "{{ hdfs_pid_dir }}"
+    state: directory
+    owner: "{{ hdfs_user }}"
+    group: "{{ hadoop_group }}"
+    mode: 0755

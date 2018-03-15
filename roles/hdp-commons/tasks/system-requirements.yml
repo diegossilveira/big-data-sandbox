@@ -1,0 +1,6 @@
+---
+- name: Install required packages
+  yum:
+    name: curl, rsync, openssh-clients, tar, unzip, wget
+    state: latest
+    update_cache: yes

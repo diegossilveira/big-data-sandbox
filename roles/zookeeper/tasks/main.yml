@@ -1,0 +1,76 @@
+- name: Install Zookeeper Packages
+  yum:
+    name: zookeeper-server
+    update_cache: yes
+    state: latest
+
+- name: Create User Zookeeper
+  user:
+    name: "{{ zookeeper_user }}"
+    password: "{{ zookeeper_password }}"
+
+- include_tasks: setup-directories.yml
+
+- name: Set log4j.properties
+  copy:
+    src: log4j.properties
+    dest: "{{ zookeeper_conf_dir }}/log4j.properties"
+    owner: "{{ zookeeper_user }}"
+    group: "{{ hadoop_group }}"
+    mode: 0644
+
+- name: Setup zoo.cfg
+  template:
+    src: zoo.cfg.j2
+    dest: "{{ zookeeper_conf_dir }}/zoo.cfg"
+    owner: "{{ zookeeper_user }}"
+    group: "{{ hadoop_group }}"
+    mode: 0644
+
+- name: Update zookeeper-env.sh
+  template:
+    src: zookeeper-env.sh
+    dest: "{{ zookeeper_conf_dir }}/zookeeper-env.sh"
+    owner: "{{ zookeeper_user }}"
+    group: "{{ hadoop_group }}"
+    mode: 0644
+
+- name: Update zookeeper-env.sh
+  template:
+    src: zookeeper-env.sh
+    dest: /etc/profile.d/
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Initialize Zookeeper data directory
+  template:
+    src: myid.j2
+    dest: "{{ zookeeper_data_dir }}/myid"
+    owner: "{{ zookeeper_user }}"
+    group: "{{ hadoop_group }}"
+    mode: 0644
+
+- name: Create systemd service to enable zookeeper start on boot
+  template:
+    src: zookeeper.service.j2
+    dest: /usr/lib/systemd/system/zookeeper.service
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Add zookeeper-env.sh into bashrc
+  lineinfile:
+    dest: /etc/bashrc
+    line: "source /etc/profile.d/zookeeper-env.sh"
+    state: present
+
+- name: reload systemctl
+  systemd:
+    daemon_reload: yes
+
+- name: Start ZooKeeper
+  systemd:
+    state: started
+    name: zookeeper
+    enabled: yes

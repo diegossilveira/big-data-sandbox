@@ -1,0 +1,17 @@
+tickTime={{ zookeeper_tick_time }}
+initLimit={{ zookeeper_init_limit }}
+dataDir={{ zookeeper_data_dir }}
+clientPort={{ zookeeper_client_port | default('2181') }}
+syncLimit={{ zookeeper_sync_limit | default('2') }}
+
+{% for host in groups['zookeeper'] %}
+# Host {{ host }}
+server.{{ hostvars[inventory_hostname][host + '.myid'] }}={{ hostvars[host]['internal_fqdn'] | default(host) }}:2888:3888
+{% endfor %}
+
+zookeeper.log.dir={{ zookeeper_log_dir }}
+zookeeper.log.file=zookeeper.log
+
+zookeeper.log.threshold=DEBUG
+zookeeper.tracelog.dir={{ zookeeper_log_dir }}
+zookeeper.tracelog.file=trace.log

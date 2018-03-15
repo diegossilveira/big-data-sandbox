@@ -1,0 +1,2 @@
+java_version: 8u162
+java_download_url: http://download.oracle.com/otn-pub/java/jdk/{{ java_version }}-b12/0da788060d494f5095bf8624735fa2f1/jdk-{{ java_version }}-linux-x64.rpm

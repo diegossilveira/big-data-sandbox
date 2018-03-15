@@ -1,0 +1,36 @@
+---
+- name: Create YARN local directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ yarn_user }}"
+    group: "{{ hadoop_group }}"
+    mode: 0755
+  with_items: "{{ yarn_local_dirs }}"
+  when: "'data_nodes' in group_names or 'resource_managers' in group_names"
+
+- name: Create YARN local log directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ yarn_user }}"
+    group: "{{ hadoop_group }}"
+    mode: 0755
+  with_items: "{{ yarn_local_log_dirs }}"
+  when: "'data_nodes' in group_names or 'resource_managers' in group_names"
+
+- name: Create YARN log directory
+  file:
+    path: "{{ yarn_log_dir }}"
+    state: directory
+    owner: "{{ yarn_user }}"
+    group: "{{ hadoop_group }}"
+    mode: 0755
+
+- name: Create YARN PID directory
+  file:
+    path: "{{ yarn_pid_dir }}"
+    state: directory
+    owner: "{{ yarn_user }}"
+    group: "{{ hadoop_group }}"
+    mode: 0755

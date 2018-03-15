@@ -1,0 +1,20 @@
+---
+- name: Download Java 8
+  get_url:
+    url: "{{java_download_url}}"
+    dest: /tmp/jdk-{{java_version}}.rpm
+    headers: "Cookie:oraclelicense=accept-securebackup-cookie"
+    validate_certs: no
+
+- name: Install Java
+  yum:
+    name: /tmp/jdk-{{java_version}}.rpm
+    state: present
+
+- name: Set JAVA_HOME
+  copy:
+    src: java_home.sh
+    dest: /etc/profile.d/java_home.sh
+    owner: root
+    group: root
+    mode: 0644

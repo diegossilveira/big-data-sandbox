@@ -1,0 +1,22 @@
+---
+- name: Disabling SELinux
+  command: setenforce 0
+
+- name: Temporarily stopping firewall
+  systemd:
+    state: stopped
+    name: firewalld
+    masked: yes
+
+- name: Creating a common group shared by services
+  group:
+    name: hadoop
+    state: present
+
+- name: Set common environment variables
+  copy:
+    src: commons_env.sh
+    dest: /etc/profile.d/commons_env.sh
+    owner: root
+    group: root
+    mode: 0644

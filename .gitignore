@@ -1,1 +1,3 @@
 .vagrant
+cache_proxy/*
+*.retry

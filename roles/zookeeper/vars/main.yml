@@ -1,0 +1,39 @@
+---
+# the directory where ZooKeeper is installed
+zookeeper_home_dir: /usr/hdp/current/zookeeper-server
+
+# the directory to store the ZooKeeper configuration files
+zookeeper_conf_dir: /usr/hdp/current/zookeeper-server/conf
+
+# the zookeeper "directory" to stor zookeeper server pid
+zookeeper_pid_dir: /var/run/zookeeper
+
+# the directory to store the ZooKeeper data files
+zookeeper_data_dir: /grid/hadoop/zookeeper/data
+
+# the directory to store the ZooKeeper logs
+zookeeper_log_dir: /var/log/zookeeper
+
+# the zookeeper log file name
+zookeeper_log_file: zookeeper.log
+
+# the user owning the ZooKeeper services
+zookeeper_user: zookeeper
+
+# the user's password owning the ZooKeeper services
+zookeeper_password: zookeeper
+
+# The number of milliseconds of each tick
+zookeeper_tick_time: 2000
+
+# The number of ticks that the initial synchronization phase can take
+zookeeper_init_limit: 10
+
+# the port at which the clients will connect
+zookeeper_client_port: 2181
+
+# Amount of time, in ticks, to allow followers to sync with ZooKeeper. If followers fall too far behind a leader, they will be dropped.
+zookeeper_sync_limit: 2
+
+# name of the hadoop global group
+hadoop_group: hadoop
