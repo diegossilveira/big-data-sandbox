@@ -14,6 +14,12 @@
 [client_nodes]
 realwave-insights-clientnode01.azure.zup.com.br internal_fqdn=clientnode01.insights.local
 
+[metastore]
+realwave-insights-clientnode01.azure.zup.com.br internal_fqdn=clientnode01.insights.local
+
+[hive:children]
+metastore
+
 [hadoop:children]
 name_node
 data_nodes
