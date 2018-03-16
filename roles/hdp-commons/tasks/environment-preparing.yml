@@ -1,6 +1,8 @@
 ---
 - name: Disabling SELinux
-  command: setenforce 0
+  selinux:
+    policy: targeted
+    state: permissive
 
 - name: Temporarily stopping firewall
   systemd:
