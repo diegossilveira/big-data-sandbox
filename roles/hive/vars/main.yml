@@ -1,8 +1,20 @@
 # The user owning the Hive processes. For example, hive.
 hive_user: hive
 
+# Directory to store the Hive configuration files.
+hive_conf_dir: "/etc/hive/conf"
+
+# Directory to store the Hive logs.
+hive_log_dir: "/var/log/hive"
+
+# Directory to store the Hive process ID.
+hive_pid_dir: "/var/run/hive"
+
 # Define the hive password
 hive_password: "{{ hostvars[inventory_hostname]['hive_password'] | default('changeme') }}"
+
+# Define the connection URL to the metastore database
+hive_metastore_connection_url: jdbc:mysql://localhost:3306/metastore_db?createDatabaseIfNotExist=true
 
 # Define which user will be used to log in the metastore database
 hive_metastore_user: hive

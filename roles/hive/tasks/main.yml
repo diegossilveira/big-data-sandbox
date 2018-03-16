@@ -15,4 +15,14 @@
     update_cache: yes
     state: latest
 
+- name: Copy environment file to profile
+  template:
+    src: hive_env.sh.j2
+    dest: /etc/profile.d/hive_env.sh
+    owner: root
+    group: root
+    mode: 0644
+
+- include_tasks: configure.yml
+
 - include_tasks: setup-metastore.yml

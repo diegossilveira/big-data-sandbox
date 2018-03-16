@@ -1,0 +1,21 @@
+---
+- name: Copy site config files
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ hive_conf_dir }}/{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - hive-site.xml
+
+- name: Copy config files
+  copy:
+    src: "{{ item }}"
+    dest: "{{ hive_conf_dir }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - hive-env.sh
+    
