@@ -26,3 +26,5 @@
 - include_tasks: configure.yml
 
 - include_tasks: setup-metastore.yml
+
+- include_tasks: create-systemd-services.yml

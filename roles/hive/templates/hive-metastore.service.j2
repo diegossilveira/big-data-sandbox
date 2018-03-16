@@ -1,0 +1,13 @@
+[Unit]
+Description=Apache Hive Metastore Service
+After=network.target
+
+[Service]
+Type=forking
+User={{ hive_user }}
+Group={{ hadoop_group }}
+EnvironmentFile=/etc/profile.d/hive_env.sh
+ExecStart=/usr/hdp/current/hive-metastore/bin/hive --service metastore
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,13 @@
+[Unit]
+Description=Apache Hive Metastore Server 2 Service
+After=network.target
+
+[Service]
+Type=forking
+User={{ hive_user }}
+Group={{ hadoop_group }}
+EnvironmentFile=/etc/profile.d/hive_env.sh
+ExecStart=/usr/hdp/current/hive-server2/bin/hiveserver2
+
+[Install]
+WantedBy=multi-user.target

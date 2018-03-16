@@ -1,0 +1,24 @@
+---
+- name: Create Hive Services
+  template:
+    src: "{{ item }}.j2"
+    dest: "/usr/lib/systemd/system/{{ item }}"
+    owner: root
+    group: root
+    mode: 644
+  with_items:
+    - hive-metastore.service
+    - hive-server2.service
+
+- name: Force systemd to reload configs
+  systemd:
+    daemon_reload: yes
+
+- name: Start Hive Services
+  systemd:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  with_items:
+    - hive-metastore
+    - hive-server2
