@@ -14,3 +14,10 @@
     name: hive-hcatalog
     update_cache: yes
     state: latest
+
+- name: Create Hive user
+  user:
+    name: "{{ hive_user }}"
+    password: "{{ hive_password }}"
+
+- include_tasks: setup-metastore.yml

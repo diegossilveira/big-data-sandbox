@@ -1,0 +1,53 @@
+---
+- name: Install needed packages
+  yum:
+    name: http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
+  when: "'metastore' in group_names"
+
+- name: Install mysql server
+  yum:
+    name: mysql-server
+  when: "'metastore' in group_names"
+
+- name: Install YUM required software
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - python-pip
+    - python-devel
+    - "@Development tools"
+    - mysql-community-devel
+  when: "'metastore' in group_names"
+
+- name: Install PIP required software
+  pip:
+    name: "{{ item }}"
+    state: forcereinstall
+  with_items:
+    - pip
+    - MySQL-python
+  when: "'metastore' in group_names"
+
+- name: reload systemctl
+  systemd:
+    daemon_reload: yes
+  when: "'metastore' in group_names"
+
+- name: Install mysql-server on boot and ensure started
+  systemd:
+    name: mysqld
+    state: started
+    enabled: yes
+  when: "'metastore' in group_names"
+
+- name: Add mysql hive user
+  mysql_user:
+    login_user: "{{ mysql_admin_login | default('root') }}"
+    login_password: "{{ mysql_admin_password | default('') }}"
+    name: "{{ hive_metastore_user }}"
+    password: "{{ hive_metastore_password }}"
+    host: "{{ hive_metastore_host | default('%') }}"
+    priv: "*.*:ALL"
+    state: present
+  when: "'metastore' in group_names"
