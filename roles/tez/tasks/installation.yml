@@ -1,0 +1,36 @@
+---
+- name: Install required packages
+  yum:
+    name: tez
+    state: latest
+    update_cache: yes
+
+- name: Create Tez dir on HDFS
+  shell: hdfs dfs -mkdir -p /hdp/apps/tez/
+  become: true
+  become_user: "{{ hdfs_user }}"
+
+- name: Copy tez lib to HDFS
+  shell: hdfs dfs -put /usr/hdp/current/tez-client/lib/tez.tar.gz /hdp/apps/tez/
+  become: true
+  become_user: "{{ hdfs_user }}"
+
+- name: Change HDP dir owner and group
+  shell: hdfs dfs -chown -R {{ hdfs_user }}:{{ hadoop_group }} /hdp
+  become: true
+  become_user: "{{ hdfs_user }}"
+
+- name: Change Tez dir mode
+  shell: hdfs dfs -chmod -R 555 /hdp/tez
+  become: true
+  become_user: "{{ hdfs_user }}"
+
+- name: Change Tez lib mode
+  shell: hdfs dfs -chmod -R 444 /hdp/apps/tez/tez.tar.gz
+  become: true
+  become_user: "{{ hdfs_user }}"
+
+- name: Ensure files were copied
+  shell: hdfs dfs -test -e /hdp/apps/tez/tez.tar.gz
+  become: true
+  become_user: "{{ hdfs_user }}"

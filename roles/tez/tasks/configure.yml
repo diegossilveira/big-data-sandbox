@@ -1,0 +1,17 @@
+---
+- name: Creates Tez config directory
+  file:
+    path: /etc/tez/conf
+    state: directory
+    recurse: yes
+    owner: root
+    group: root
+    mode: 0644
+  
+- name: Copy Tez config file
+  file:
+    src: tez-site.xml
+    dest: /etc/tez/conf
+    owner: root
+    group: root
+    mode: 0644
