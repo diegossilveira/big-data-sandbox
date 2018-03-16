@@ -1,0 +1,16 @@
+[Unit]
+Description=Apache Hadoop YARN NodeManager Service
+After=network.target
+
+[Service]
+Type=forking
+User={{ yarn_user }}
+Group={{ hadoop_group }}
+Environment="JAVA_HOME=/usr/java/default"
+EnvironmentFile=/etc/profile.d/hadoop_env.sh
+ExecStart=/usr/hdp/current/hadoop-yarn-nodemanager/sbin/yarn-daemon.sh --config $HADOOP_CONF_DIR start nodemanager
+ExecStop=/usr/hdp/current/hadoop-yarn-nodemanager/sbin/yarn-daemon.sh --config $HADOOP_CONF_DIR stop nodemanager
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

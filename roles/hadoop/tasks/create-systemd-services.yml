@@ -57,3 +57,51 @@
     state: started
     enabled: yes
   when: "'data_nodes' in group_names"
+
+- name: Create HDFS mapreduce directory
+  shell: hdfs dfs -mkdir -p /hdp/apps/mapreduce/
+  become: yes
+  become_user: "{{ hdfs_user }}"
+  when: "'name_node' in group_names"
+
+- name: Put mapreduce tarball in HDFS
+  shell: hdfs dfs -put /usr/hdp/current/hadoop-client/mapreduce.tar.gz /hdp/apps/{{ hdp_version }}/mapreduce/
+  become: yes
+  become_user: "{{ hdfs_user }}"
+  when: "'name_node' in group_names"
+
+- name: Change HDP directory owner permission
+  shell: hdfs dfs -chown -R {{ hdfs_user }}:{{ hadoop_group }} /hdp
+  become: yes
+  become_user: "{{ hdfs_user }}"
+  when: "'name_node' in group_names"
+
+- name: Change mapreduce directory mode
+  shell: hdfs dfs -chmod -R 555 /hdp/apps/{{ hdp_version }}/mapreduce
+  become: yes
+  become_user: "{{ hdfs_user }}"
+  when: "'name_node' in group_names"
+
+- name: Change mapreduce tarball mode
+  shell: hdfs dfs -chmod 444 /hdp/apps/<hdp_version>/mapreduce/mapreduce.tar.gz
+  become: yes
+  become_user: "{{ hdfs_user }}" 
+  when: "'name_node' in group_names"
+
+- name: Create YARN resourcemanager Service
+  template:
+    src: hadoop-yarn-resourcemanager.service.j2
+    dest: /usr/lib/systemd/system/hadoop-yarn-resourcemanager.service
+    owner: root
+    group: root
+    mode: 644
+  when: "'resource_manager' in group_names"
+
+- name: Create YARN nodemanager Service
+  template:
+    src: hadoop-yarn-nodemanager.service.j2
+    dest: /usr/lib/systemd/system/hadoop-yarn-nodemanager.service
+    owner: root
+    group: root
+    mode: 644
+  when: "'resource_manager' not in group_names"
