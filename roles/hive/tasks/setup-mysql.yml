@@ -18,6 +18,7 @@
     - python-devel
     - "@Development tools"
     - mysql-community-devel
+  when: "'metastore' in group_names"
 
 - name: Install PIP required software
   pip:
@@ -26,6 +27,7 @@
   with_items:
     - pip
     - MySQL-python
+  when: "'metastore' in group_names"
 
 - name: reload systemctl
   systemd:
@@ -45,6 +47,7 @@
     login_password: "{{ mysql_admin_password | default('') }}"
     name: "{{ hive_metastore_user }}"
     password: "{{ hive_metastore_password }}"
+    host: "{{ hive_metastore_host | default('%') }}"
     priv: "*.*:ALL"
     state: present
   when: "'metastore' in group_names"
