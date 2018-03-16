@@ -1,7 +1,19 @@
 ---
-- name: Setup hive
-  debug:
-    msg: "Not implemented"
+- name: Adjusting limits
+  pam_limits:
+    domain: "{{ hive_user }}"
+    limit_item: nproc
+    limit_type: "{{ item.type }}"
+    value: "{{ item.value }}"
+    with_items:
+      - { type: 'soft', value: 128 }
+      - { type: 'hard', value: 1024 }
+
+- name: Install Hive packages
+  yum:
+    name: hive-hcatalog
+    update_cache: yes
+    state: latest
 
 - name: Create Hive user
   user:
