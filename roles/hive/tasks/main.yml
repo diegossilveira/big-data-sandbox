@@ -20,4 +20,4 @@
     name: "{{ hive_user }}"
     password: "{{ hive_password }}"
 
-- include_tasks: setup-mysql.yml
+- include_tasks: setup-metastore.yml
