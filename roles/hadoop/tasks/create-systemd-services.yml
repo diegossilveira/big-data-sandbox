@@ -1,6 +1,6 @@
 ---
 - name: Format HDFS NameNode
-  shell: /usr/hdp/current/hadoop-hdfs-namenode/../hadoop/bin/hdfs namenode -format
+  shell: /usr/hdp/current/hadoop-hdfs-namenode/../hadoop/bin/hdfs namenode -format -force
   become: true
   become_user: hdfs
   when: "'name_node' in group_names"
