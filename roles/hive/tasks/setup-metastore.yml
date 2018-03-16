@@ -51,11 +51,14 @@
     login_user: "{{ mysql_admin_login | default('root') }}"
     login_password: "{{ mysql_admin_password | default('') }}"
     login_host: "{{ hive_metastore_url | default('localhost') }}"
-    name: "{{ hive_metastore_user }}"
-    password: "{{ hive_metastore_password }}"
-    host: "{{ hive_metastore_host | default('%') }}"
+    name: "{{ item.user }}"
+    password: "{{ item.password }}"
+    host: "{{ item.host }}"
     priv: "*.*:ALL"
     state: present
+  with_items:
+    - { user: "{{ hive_metastore_user }}", password: "{{ hive_metastore_password }}", host: "%" }
+    - { user: "{{ hive_metastore_user }}", password: "{{ hive_metastore_password }}", host: "localhost" }
   when: "'metastore' in group_names"
 
 - name: Copy mysql connector to hive lib folder
@@ -75,3 +78,8 @@
     login_host: "{{ hive_metastore_url | default('localhost') }}"
     name: metastore_db
     state: present
+  when: "'metastore' in group_names"
+
+- name: Run schematool to provision the metastore database
+  command: "{{ hive_home }}/bin/schematool -initSchema -dbType mysql"
+  when: "'metastore' in group_names"
