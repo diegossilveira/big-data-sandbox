@@ -5,9 +5,9 @@
     limit_item: nproc
     limit_type: "{{ item.type }}"
     value: "{{ item.value }}"
-    with_items:
-      - { type: 'soft', value: 128 }
-      - { type: 'hard', value: 1024 }
+  with_items:
+    - { type: 'soft', value: 128 }
+    - { type: 'hard', value: 1024 }
 
 - name: Install Hive packages
   yum:
