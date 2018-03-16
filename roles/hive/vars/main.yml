@@ -9,3 +9,6 @@ hive_metastore_user: hive
 
 # Define what password will be used to log in the metastore database
 hive_metastore_password: "{{ hostvars[inventory_hostname]['hive_metastore_password'] | default('changeme') }}"
+
+# Define the hive metastore connection URL to be used to log in the metastore database
+hive_metastore_url: "{{ hostvars[inventory_hostname]['hive_metastore_url'] | default('localhost') }}"

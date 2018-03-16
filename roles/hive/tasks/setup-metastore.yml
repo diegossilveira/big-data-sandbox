@@ -62,3 +62,11 @@
     group: "{{ hadoop_group | default('hadoop') }}"
     mode: 0644
   when: "'metastore' in group_names"
+
+- name: Create mysql metastore database
+  mysql_db:
+    login_user: "{{ hive_metastore_user | default('root') }}"
+    login_password: "{{ hive_metastore_password | default('') }}"
+    login_host: "{{ hive_metastore_url | default('localhost') }}"
+    name: metastore_db
+    state: present
